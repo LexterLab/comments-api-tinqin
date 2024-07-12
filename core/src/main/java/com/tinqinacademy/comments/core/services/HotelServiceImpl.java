@@ -1,6 +1,6 @@
 package com.tinqinacademy.comments.core.services;
 
-import com.tinqinacademy.comments.api.contracts.RoomService;
+import com.tinqinacademy.comments.api.contracts.HotelService;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentOutput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsInput;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class RoomServiceImpl implements RoomService {
+public class HotelServiceImpl implements HotelService {
 
     @Override
     public GetRoomCommentsOutput getRoomComments(GetRoomCommentsInput input) {

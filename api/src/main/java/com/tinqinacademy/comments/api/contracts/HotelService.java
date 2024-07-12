@@ -7,7 +7,7 @@ import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomComments
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentInput;
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentOutput;
 
-public interface RoomService {
+public interface HotelService {
     GetRoomCommentsOutput getRoomComments(GetRoomCommentsInput input);
     LeaveRoomCommentOutput leaveRoomComment(LeaveRoomCommentInput input);
     EditCommentOutput editRoomComment(EditCommentInput input);
