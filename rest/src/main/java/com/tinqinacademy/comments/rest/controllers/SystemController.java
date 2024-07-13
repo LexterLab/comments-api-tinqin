@@ -23,8 +23,7 @@ public class SystemController {
     private final SystemService systemService;
 
 
-    @PutMapping(PathConstants.GET_ROOM_COMMENTS)
-//    @PutMapping("system/comment/{commentId}")
+    @PutMapping(PathConstants.EDIT_USER_COMMENT)
     public ResponseEntity<EditUserCommentOutput> editUserComment(@PathVariable String commentId,
                                                                  @Valid EditUserCommentInput input) {
        input = EditUserCommentInput.builder()
@@ -38,7 +37,7 @@ public class SystemController {
        return new ResponseEntity<>(systemService.editUserComment(input), HttpStatus.OK);
     }
 
-    @DeleteMapping("system/comment/{commentId}")
+    @DeleteMapping(PathConstants.DELETE_COMMENT)
     public ResponseEntity<DeleteRoomCommentOutput> deleteUserComment(@PathVariable String commentId) {
         DeleteRoomCommentInput input = DeleteRoomCommentInput.builder()
                 .commentId(commentId).build();

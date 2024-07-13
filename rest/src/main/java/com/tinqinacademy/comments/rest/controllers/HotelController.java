@@ -30,7 +30,7 @@ public class HotelController {
         return new ResponseEntity<>(hotelService.getRoomComments(input), HttpStatus.OK);
     }
 
-    @PostMapping("hotel/{roomId}/comment")
+    @PostMapping(PathConstants.LEAVE_ROOM_COMMENT)
     public ResponseEntity<LeaveRoomCommentOutput> leaveRoomComment(@PathVariable String roomId,
                                                                   @Valid LeaveRoomCommentInput input) {
         input = LeaveRoomCommentInput.builder()
@@ -43,7 +43,7 @@ public class HotelController {
         return new ResponseEntity<>(hotelService.leaveRoomComment(input), HttpStatus.CREATED);
     }
 
-    @PatchMapping("hotel/comment/{commentId}")
+    @PatchMapping(PathConstants.EDIT_COMMENT)
     public ResponseEntity<EditCommentOutput> editComment(@PathVariable String commentId,
                                                          @Valid EditCommentInput input) {
         input = EditCommentInput.builder()
