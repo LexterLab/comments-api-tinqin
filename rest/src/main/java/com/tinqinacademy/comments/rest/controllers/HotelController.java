@@ -32,7 +32,7 @@ public class HotelController {
 
     @PostMapping(PathConstants.LEAVE_ROOM_COMMENT)
     public ResponseEntity<LeaveRoomCommentOutput> leaveRoomComment(@PathVariable String roomId,
-                                                                  @Valid LeaveRoomCommentInput input) {
+                                                                  @Valid @RequestBody LeaveRoomCommentInput input) {
         input = LeaveRoomCommentInput.builder()
                 .roomId(roomId)
                 .content(input.getContent())
@@ -45,7 +45,7 @@ public class HotelController {
 
     @PatchMapping(PathConstants.EDIT_COMMENT)
     public ResponseEntity<EditCommentOutput> editComment(@PathVariable String commentId,
-                                                         @Valid EditCommentInput input) {
+                                                         @Valid @RequestBody EditCommentInput input) {
         input = EditCommentInput.builder()
                 .id(commentId)
                 .content(input.getContent())

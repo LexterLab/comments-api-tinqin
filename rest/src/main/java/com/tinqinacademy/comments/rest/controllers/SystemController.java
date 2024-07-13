@@ -11,10 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +22,7 @@ public class SystemController {
 
     @PutMapping(PathConstants.EDIT_USER_COMMENT)
     public ResponseEntity<EditUserCommentOutput> editUserComment(@PathVariable String commentId,
-                                                                 @Valid EditUserCommentInput input) {
+                                                                 @Valid @RequestBody EditUserCommentInput input) {
        input = EditUserCommentInput.builder()
                .commentId(commentId)
                .content(input.getContent())
