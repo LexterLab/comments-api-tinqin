@@ -35,7 +35,7 @@ class HotelControllerTest {
                 .lastName("Russell")
                 .build();
 
-        mockMvc.perform(get(RestAPIRoutes.HOTEL + "/2/comment"))
+        mockMvc.perform(get(RestAPIRoutes.GET_ROOM_COMMENTS, 2))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments").isArray())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0]").isNotEmpty())
@@ -59,7 +59,7 @@ class HotelControllerTest {
                 .content("Some content")
                         .build();
 
-        mockMvc.perform(post(RestAPIRoutes.HOTEL + "/2/comment")
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -75,7 +75,7 @@ class HotelControllerTest {
                 .content("Some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.HOTEL + "/2/comment")
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -90,7 +90,7 @@ class HotelControllerTest {
                 .content("Some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.HOTEL + "/2/comment")
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -105,7 +105,7 @@ class HotelControllerTest {
                 .content("Som")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.HOTEL + "/2/comment")
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -120,7 +120,7 @@ class HotelControllerTest {
                 .content("Some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.HOTEL + "/2/comment")
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -135,7 +135,7 @@ class HotelControllerTest {
                 .content("Some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.HOTEL + "/2/comment")
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -164,7 +164,7 @@ class HotelControllerTest {
                         "they are used for the greater good.")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.HOTEL + "/2/comment")
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -179,7 +179,7 @@ class HotelControllerTest {
                 .content("")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.HOTEL + "/2/comment")
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -194,7 +194,7 @@ class HotelControllerTest {
                 .content(" ")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.HOTEL + "/2/comment")
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -209,7 +209,7 @@ class HotelControllerTest {
                 .content(null)
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.HOTEL + "/2/comment")
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -223,7 +223,7 @@ class HotelControllerTest {
                 .content("Some content")
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.HOTEL + "/comment/1")
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(input)))
@@ -237,7 +237,7 @@ class HotelControllerTest {
                 .content("Some")
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.HOTEL + "/comment/1")
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -264,7 +264,7 @@ class HotelControllerTest {
                         "they are used for the greater good.")
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.HOTEL + "/comment/1")
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -277,7 +277,7 @@ class HotelControllerTest {
                 .content("")
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.HOTEL + "/comment/1")
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -290,7 +290,7 @@ class HotelControllerTest {
                 .content(" ")
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.HOTEL + "/comment/1")
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -303,7 +303,7 @@ class HotelControllerTest {
                 .content(null)
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.HOTEL + "/comment/1")
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
