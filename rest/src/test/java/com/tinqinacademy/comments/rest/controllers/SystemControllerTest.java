@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -377,6 +378,11 @@ class SystemControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-
+    @Test
+    void shouldRespondWithOKWhenDeletingUserComment() throws Exception {
+        mockMvc.perform(delete(RestAPIRoutes.DELETE_COMMENT, 1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isEmpty());
+    }
 
 }
