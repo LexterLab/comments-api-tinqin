@@ -46,7 +46,8 @@ public class SystemController {
                .roomNo(input.getRoomNo())
                .build();
 
-       return new ResponseEntity<>(systemService.editUserComment(input), HttpStatus.OK);
+       EditUserCommentOutput output = systemService.editUserComment(input);
+       return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
     @Operation(
@@ -65,6 +66,7 @@ public class SystemController {
     public ResponseEntity<DeleteRoomCommentOutput> deleteUserComment(@PathVariable String commentId) {
         DeleteRoomCommentInput input = DeleteRoomCommentInput.builder()
                 .commentId(commentId).build();
-        return new ResponseEntity<>(systemService.deleteRoomComment(input), HttpStatus.OK);
+        DeleteRoomCommentOutput output = systemService.deleteRoomComment(input);
+        return new ResponseEntity<>(output, HttpStatus.OK);
     }
 }
