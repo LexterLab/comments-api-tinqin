@@ -216,6 +216,95 @@ class HotelControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
+    @Test
+    void shouldRespondWithBadRequestWhenProvidingEmptyFirstNameWhenLeavingRoomComment() throws Exception {
+        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
+                .firstName("")
+                .lastName("Russell")
+                .content("some content")
+                .build();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    void shouldRespondWithBadRequestWhenProvidingBlankFirstNameWhenLeavingRoomComment() throws Exception {
+        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
+                .firstName(" ")
+                .lastName("Russell")
+                .content("some content")
+                .build();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    void shouldRespondWithBadRequestWhenProvidingNullFirstNameWhenLeavingRoomComment() throws Exception {
+        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
+                .firstName(null)
+                .lastName("Russell")
+                .content("some content")
+                .build();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    void shouldRespondWithBadRequestWhenProvidingEmptyLastNameWhenLeavingRoomComment() throws Exception {
+        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
+                .firstName("George")
+                .lastName("")
+                .content("some content")
+                .build();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    void shouldRespondWithBadRequestWhenProvidingBlankLastNameWhenLeavingRoomComment() throws Exception {
+        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
+                .firstName("George")
+                .lastName(" ")
+                .content("some content")
+                .build();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    void shouldRespondWithBadRequestWhenProvidingNullLastNameWhenLeavingRoomComment() throws Exception {
+        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
+                .firstName("George")
+                .lastName(null)
+                .content("some content")
+                .build();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
 
     @Test
     void shouldRespondWithOKAndCommentIdWhenEditingComment() throws Exception {
