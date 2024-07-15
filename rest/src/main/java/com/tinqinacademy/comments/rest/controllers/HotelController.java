@@ -7,7 +7,7 @@ import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomComments
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsOutput;
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentInput;
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentOutput;
-import com.tinqinacademy.comments.rest.utils.PathConstants;
+import com.tinqinacademy.comments.api.RestAPIRoutes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,12 +36,13 @@ public class HotelController {
             @ApiResponse(responseCode = "500", description = "HTTP STATUS 500 INTERNAL SERVER ERROR")
     }
     )
-    @GetMapping(PathConstants.GET_ROOM_COMMENTS)
+    @GetMapping(RestAPIRoutes.GET_ROOM_COMMENTS)
     public ResponseEntity<GetRoomCommentsOutput> getRoomComments(@PathVariable String roomId) {
         GetRoomCommentsInput input  = GetRoomCommentsInput.builder()
                 .roomId(roomId)
                 .build();
-        return new ResponseEntity<>(hotelService.getRoomComments(input), HttpStatus.OK);
+        GetRoomCommentsOutput output = hotelService.getRoomComments(input);
+        return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
     @Operation(
@@ -56,7 +57,7 @@ public class HotelController {
             @ApiResponse(responseCode = "500", description = "HTTP STATUS 500 INTERNAL SERVER ERROR")
     }
     )
-    @PostMapping(PathConstants.LEAVE_ROOM_COMMENT)
+    @PostMapping(RestAPIRoutes.LEAVE_ROOM_COMMENT)
     public ResponseEntity<LeaveRoomCommentOutput> leaveRoomComment(@PathVariable String roomId,
                                                                   @Valid @RequestBody LeaveRoomCommentInput input) {
         input = LeaveRoomCommentInput.builder()
@@ -65,8 +66,9 @@ public class HotelController {
                 .firstName(input.getFirstName())
                 .lastName(input.getLastName())
                 .build();
+        LeaveRoomCommentOutput output = hotelService.leaveRoomComment(input);
 
-        return new ResponseEntity<>(hotelService.leaveRoomComment(input), HttpStatus.CREATED);
+        return new ResponseEntity<>(output, HttpStatus.CREATED);
     }
 
     @Operation(
@@ -81,7 +83,7 @@ public class HotelController {
             @ApiResponse(responseCode = "500", description = "HTTP STATUS 500 INTERNAL SERVER ERROR")
     }
     )
-    @PatchMapping(PathConstants.EDIT_COMMENT)
+    @PatchMapping(RestAPIRoutes.EDIT_COMMENT)
     public ResponseEntity<EditCommentOutput> editComment(@PathVariable String commentId,
                                                          @Valid @RequestBody EditCommentInput input) {
         input = EditCommentInput.builder()
@@ -89,7 +91,8 @@ public class HotelController {
                 .content(input.getContent())
                 .build();
 
-        return new ResponseEntity<>(hotelService.editRoomComment(input), HttpStatus.OK);
+        EditCommentOutput output = hotelService.editRoomComment(input);
+        return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
 }

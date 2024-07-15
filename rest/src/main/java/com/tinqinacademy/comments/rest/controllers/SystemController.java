@@ -5,7 +5,7 @@ import com.tinqinacademy.comments.api.operations.deletecomment.DeleteRoomComment
 import com.tinqinacademy.comments.api.operations.deletecomment.DeleteRoomCommentOutput;
 import com.tinqinacademy.comments.api.operations.editusercomment.EditUserCommentInput;
 import com.tinqinacademy.comments.api.operations.editusercomment.EditUserCommentOutput;
-import com.tinqinacademy.comments.rest.utils.PathConstants;
+import com.tinqinacademy.comments.api.RestAPIRoutes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,7 +36,7 @@ public class SystemController {
             @ApiResponse(responseCode = "500", description = "HTTP STATUS 500 INTERNAL SERVER ERROR")
     }
     )
-    @PutMapping(PathConstants.EDIT_USER_COMMENT)
+    @PutMapping(RestAPIRoutes.EDIT_USER_COMMENT)
     public ResponseEntity<EditUserCommentOutput> editUserComment(@PathVariable String commentId,
                                                                  @Valid @RequestBody EditUserCommentInput input) {
        input = EditUserCommentInput.builder()
@@ -63,7 +63,7 @@ public class SystemController {
             @ApiResponse(responseCode = "500", description = "HTTP STATUS 500 INTERNAL SERVER ERROR")
     }
     )
-    @DeleteMapping(PathConstants.DELETE_COMMENT)
+    @DeleteMapping(RestAPIRoutes.DELETE_COMMENT)
     public ResponseEntity<DeleteRoomCommentOutput> deleteUserComment(@PathVariable String commentId) {
         DeleteRoomCommentInput input = DeleteRoomCommentInput.builder()
                 .commentId(commentId).build();
