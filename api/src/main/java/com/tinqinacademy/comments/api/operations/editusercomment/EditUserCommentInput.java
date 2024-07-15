@@ -17,6 +17,7 @@ public class EditUserCommentInput {
     private String commentId;
     @Schema(example = "201A")
     @NotBlank(message = "Field roomNo cannot be blank")
+    @Size(min = 4, max = 4, message = "Field roomNo must be 4 characters")
     private String roomNo;
     @Schema(example = "Lewis")
     @NotBlank(message = "Field firstName cannot be blank")
