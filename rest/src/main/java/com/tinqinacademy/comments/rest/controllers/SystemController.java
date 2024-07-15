@@ -32,8 +32,7 @@ public class SystemController {
             @ApiResponse(responseCode = "400", description = "HTTP STATUS 400 BAD REQUEST"),
             @ApiResponse(responseCode = "401", description = "HTTP STATUS 401 UNAUTHORIZED"),
             @ApiResponse(responseCode = "403", description = "HTTP STATUS 403 FORBIDDEN"),
-            @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND"),
-            @ApiResponse(responseCode = "500", description = "HTTP STATUS 500 INTERNAL SERVER ERROR")
+            @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND")
     }
     )
     @PutMapping(RestAPIRoutes.EDIT_USER_COMMENT)
@@ -59,8 +58,7 @@ public class SystemController {
             @ApiResponse(responseCode = "400", description = "HTTP STATUS 400 BAD REQUEST"),
             @ApiResponse(responseCode = "401", description = "HTTP STATUS 401 UNAUTHORIZED"),
             @ApiResponse(responseCode = "403", description = "HTTP STATUS 403 FORBIDDEN"),
-            @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND"),
-            @ApiResponse(responseCode = "500", description = "HTTP STATUS 500 INTERNAL SERVER ERROR")
+            @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND")
     }
     )
     @DeleteMapping(RestAPIRoutes.DELETE_COMMENT)

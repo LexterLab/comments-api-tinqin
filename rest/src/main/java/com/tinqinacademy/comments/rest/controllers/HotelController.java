@@ -32,8 +32,7 @@ public class HotelController {
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "HTTP STATUS 200 SUCCESS"),
             @ApiResponse(responseCode = "400", description = "HTTP STATUS 400 BAD REQUEST"),
-            @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND"),
-            @ApiResponse(responseCode = "500", description = "HTTP STATUS 500 INTERNAL SERVER ERROR")
+            @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND")
     }
     )
     @GetMapping(RestAPIRoutes.GET_ROOM_COMMENTS)
@@ -53,8 +52,7 @@ public class HotelController {
             @ApiResponse(responseCode = "201", description = "HTTP STATUS 201 CREATED"),
             @ApiResponse(responseCode = "400", description = "HTTP STATUS 400 BAD REQUEST"),
             @ApiResponse(responseCode = "401", description = "HTT STATUS 401 UNAUTHORIZED"),
-            @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND"),
-            @ApiResponse(responseCode = "500", description = "HTTP STATUS 500 INTERNAL SERVER ERROR")
+            @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND")
     }
     )
     @PostMapping(RestAPIRoutes.LEAVE_ROOM_COMMENT)
@@ -79,8 +77,7 @@ public class HotelController {
             @ApiResponse(responseCode = "200", description = "HTTP STATUS 200 SUCCESS"),
             @ApiResponse(responseCode = "400", description = "HTTP STATUS 400 BAD REQUEST"),
             @ApiResponse(responseCode = "401", description = "HTT STATUS 401 UNAUTHORIZED"),
-            @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND"),
-            @ApiResponse(responseCode = "500", description = "HTTP STATUS 500 INTERNAL SERVER ERROR")
+            @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND")
     }
     )
     @PatchMapping(RestAPIRoutes.EDIT_COMMENT)
