@@ -26,6 +26,7 @@ services:
     restart: always
     volumes:
       - pgadmin_data:/var/lib/pgadmin
+      - postgres_data:/var/lib/postgresql/data
 
 networks:
   hotel:
@@ -33,3 +34,4 @@ networks:
 
 volumes:
   pgadmin_data:
+  postgres_data:
