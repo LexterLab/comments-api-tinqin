@@ -2,7 +2,7 @@ package com.tinqinacademy.comments.core.services;
 
 import com.tinqinacademy.comments.api.contracts.ErrorHandlerService;
 import com.tinqinacademy.comments.api.operations.error.Error;
-import com.tinqinacademy.comments.api.operations.error.ErrorDetails;
+import com.tinqinacademy.comments.api.operations.error.ErrorOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ErrorHandlerServiceImpl implements ErrorHandlerService {
     @Override
-    public ErrorDetails handle(Exception exception) {
+    public ErrorOutput handle(Exception exception) {
         List<Error> errors = new ArrayList<>();
 
         if (exception instanceof MethodArgumentNotValidException ex) {
@@ -23,11 +23,11 @@ public class ErrorHandlerServiceImpl implements ErrorHandlerService {
             errors.add(error);
         }
 
-        ErrorDetails errorDetails = ErrorDetails.builder()
+        ErrorOutput errorOutput = ErrorOutput.builder()
                 .errors(errors)
                 .build();
 
-        return errorDetails;
+        return errorOutput;
     }
 
     private List<Error> handleMethodArgumentNotValid(MethodArgumentNotValidException exception) {

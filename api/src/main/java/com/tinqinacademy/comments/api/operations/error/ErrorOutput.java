@@ -10,6 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Builder
-public class ErrorDetails {
+public class ErrorOutput {
     private List<Error> errors;
 }

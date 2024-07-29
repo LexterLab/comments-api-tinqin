@@ -1,7 +1,7 @@
 package com.tinqinacademy.comments.api.contracts;
 
-import com.tinqinacademy.comments.api.operations.error.ErrorDetails;
+import com.tinqinacademy.comments.api.operations.error.ErrorOutput;
 
 public interface ErrorHandlerService {
-    ErrorDetails handle(Exception exception);
+    ErrorOutput handle(Exception exception);
 }
