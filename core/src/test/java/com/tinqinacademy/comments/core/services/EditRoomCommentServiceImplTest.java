@@ -1,5 +1,6 @@
 package com.tinqinacademy.comments.core.services;
 
+import com.tinqinacademy.comments.api.exceptions.ResourceNotFoundException;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentOutput;
 import com.tinqinacademy.comments.persistence.models.Comment;
@@ -50,5 +51,18 @@ class EditRoomCommentServiceImplTest {
         EditCommentOutput output = editRoomCommentService.editRoomComment(input);
 
         assertEquals(expectedOutput.toString(), output.toString());
+    }
+
+    @Test
+    void shouldThrowResourceNotFoundExceptionWhenEditingNonExistingRoomComment() {
+        EditCommentInput input = EditCommentInput
+                .builder()
+                .id(UUID.randomUUID())
+                .content("Random content")
+                .build();
+
+        when(commentRepository.findById(input.getId())).thenThrow(ResourceNotFoundException.class);
+
+       assertThrows(ResourceNotFoundException.class, () -> editRoomCommentService.editRoomComment(input));
     }
 }
