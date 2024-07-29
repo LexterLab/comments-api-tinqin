@@ -2,6 +2,8 @@ package com.tinqinacademy.comments.api.operations.deletecomment;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -9,5 +11,5 @@ import lombok.*;
 @Builder
 @ToString
 public class DeleteRoomCommentInput {
-    private String commentId;
+    private UUID commentId;
 }
