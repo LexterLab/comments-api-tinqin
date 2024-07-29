@@ -1,7 +1,7 @@
 package com.tinqinacademy.comments.rest.controllers;
 
+import com.tinqinacademy.comments.api.contracts.DeleteRoomCommentService;
 import com.tinqinacademy.comments.api.contracts.EditUserCommentService;
-import com.tinqinacademy.comments.api.contracts.SystemService;
 import com.tinqinacademy.comments.api.operations.deletecomment.DeleteRoomCommentInput;
 import com.tinqinacademy.comments.api.operations.deletecomment.DeleteRoomCommentOutput;
 import com.tinqinacademy.comments.api.operations.editusercomment.EditUserCommentInput;
@@ -23,8 +23,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Tag(name = "System REST APIs")
 public class SystemController {
-    private final SystemService systemService;
     private final EditUserCommentService editUserCommentService;
+    private final DeleteRoomCommentService deleteRoomCommentService;
 
 
     @Operation(
@@ -69,8 +69,8 @@ public class SystemController {
     @DeleteMapping(RestAPIRoutes.DELETE_COMMENT)
     public ResponseEntity<DeleteRoomCommentOutput> deleteUserComment(@PathVariable String commentId) {
         DeleteRoomCommentInput input = DeleteRoomCommentInput.builder()
-                .commentId(commentId).build();
-        DeleteRoomCommentOutput output = systemService.deleteRoomComment(input);
+                .commentId(UUID.fromString(commentId)).build();
+        DeleteRoomCommentOutput output = deleteRoomCommentService.deleteRoomComment(input);
         return new ResponseEntity<>(output, HttpStatus.OK);
     }
 }
