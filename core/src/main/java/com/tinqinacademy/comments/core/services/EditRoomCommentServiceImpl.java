@@ -23,6 +23,7 @@ public class EditRoomCommentServiceImpl implements EditRoomCommentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", input.getId().toString()));
 
         comment.setContent(input.getContent());
+        comment.setLastEditedBy(comment.getFirstName() + " " + comment.getLastName());
 
         commentRepository.save(comment);
 
