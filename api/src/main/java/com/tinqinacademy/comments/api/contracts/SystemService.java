@@ -6,6 +6,5 @@ import com.tinqinacademy.comments.api.operations.editusercomment.EditUserComment
 import com.tinqinacademy.comments.api.operations.editusercomment.EditUserCommentOutput;
 
 public interface SystemService {
-    EditUserCommentOutput editUserComment(EditUserCommentInput input);
     DeleteRoomCommentOutput deleteRoomComment(DeleteRoomCommentInput input);
 }

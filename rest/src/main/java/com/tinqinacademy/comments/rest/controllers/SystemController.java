@@ -1,5 +1,6 @@
 package com.tinqinacademy.comments.rest.controllers;
 
+import com.tinqinacademy.comments.api.contracts.EditUserCommentService;
 import com.tinqinacademy.comments.api.contracts.SystemService;
 import com.tinqinacademy.comments.api.operations.deletecomment.DeleteRoomCommentInput;
 import com.tinqinacademy.comments.api.operations.deletecomment.DeleteRoomCommentOutput;
@@ -16,11 +17,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "System REST APIs")
 public class SystemController {
     private final SystemService systemService;
+    private final EditUserCommentService editUserCommentService;
 
 
     @Operation(
@@ -39,14 +43,14 @@ public class SystemController {
     public ResponseEntity<EditUserCommentOutput> editUserComment(@PathVariable String commentId,
                                                                  @Valid @RequestBody EditUserCommentInput input) {
        input = EditUserCommentInput.builder()
-               .commentId(commentId)
+               .commentId(UUID.fromString(commentId))
                .content(input.getContent())
                .firstName(input.getFirstName())
                .lastName(input.getLastName())
                .roomNo(input.getRoomNo())
                .build();
 
-       EditUserCommentOutput output = systemService.editUserComment(input);
+       EditUserCommentOutput output = editUserCommentService.editUserComment(input);
        return new ResponseEntity<>(output, HttpStatus.OK);
     }
 

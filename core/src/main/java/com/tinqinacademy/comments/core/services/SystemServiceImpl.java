@@ -13,19 +13,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class SystemServiceImpl implements SystemService {
-    @Override
-    public EditUserCommentOutput editUserComment(EditUserCommentInput input) {
-
-        log.info("Start editUserComment {}", input);
-
-        EditUserCommentOutput output  = EditUserCommentOutput.builder()
-                .id(input.getCommentId())
-                .build();
-
-        log.info("End editUserComment {}", output);
-
-        return output;
-    }
 
     @Override
     public DeleteRoomCommentOutput deleteRoomComment(DeleteRoomCommentInput input) {
