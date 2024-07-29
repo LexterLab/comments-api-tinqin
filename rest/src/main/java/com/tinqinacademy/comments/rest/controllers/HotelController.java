@@ -1,7 +1,7 @@
 package com.tinqinacademy.comments.rest.controllers;
 
+import com.tinqinacademy.comments.api.contracts.EditRoomCommentService;
 import com.tinqinacademy.comments.api.contracts.GetRoomCommentsService;
-import com.tinqinacademy.comments.api.contracts.HotelService;
 import com.tinqinacademy.comments.api.contracts.LeaveRoomCommentService;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentOutput;
@@ -27,9 +27,9 @@ import java.util.UUID;
 @Tag(name = "Hotel REST APIs")
 public class HotelController {
 
-    private final HotelService hotelService;
     private final GetRoomCommentsService getRoomCommentsService;
     private final LeaveRoomCommentService leaveRoomCommentService;
+    private final EditRoomCommentService editRoomCommentService;
 
     @Operation(
             summary = "Get room comments Rest API",
@@ -91,11 +91,11 @@ public class HotelController {
     public ResponseEntity<EditCommentOutput> editComment(@PathVariable String commentId,
                                                          @Valid @RequestBody EditCommentInput input) {
         input = EditCommentInput.builder()
-                .id(commentId)
+                .id(UUID.fromString(commentId))
                 .content(input.getContent())
                 .build();
 
-        EditCommentOutput output = hotelService.editRoomComment(input);
+        EditCommentOutput output = editRoomCommentService.editRoomComment(input);
         return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
