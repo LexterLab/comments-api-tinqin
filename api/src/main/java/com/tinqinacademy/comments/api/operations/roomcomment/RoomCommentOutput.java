@@ -13,7 +13,6 @@ import java.util.UUID;
 @Builder
 @ToString
 public class RoomCommentOutput {
-    @Schema(example = "UUID")
     private UUID id;
     @Schema(example = "George")
     private String firstName;
