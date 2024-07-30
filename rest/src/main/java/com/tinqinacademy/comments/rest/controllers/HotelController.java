@@ -1,6 +1,8 @@
 package com.tinqinacademy.comments.rest.controllers;
 
-import com.tinqinacademy.comments.api.contracts.HotelService;
+import com.tinqinacademy.comments.api.contracts.EditRoomCommentService;
+import com.tinqinacademy.comments.api.contracts.GetRoomCommentsService;
+import com.tinqinacademy.comments.api.contracts.LeaveRoomCommentService;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentOutput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsInput;
@@ -18,12 +20,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @RestController
 @Tag(name = "Hotel REST APIs")
 public class HotelController {
 
-    private final HotelService hotelService;
+    private final GetRoomCommentsService getRoomCommentsService;
+    private final LeaveRoomCommentService leaveRoomCommentService;
+    private final EditRoomCommentService editRoomCommentService;
 
     @Operation(
             summary = "Get room comments Rest API",
@@ -38,9 +44,9 @@ public class HotelController {
     @GetMapping(RestAPIRoutes.GET_ROOM_COMMENTS)
     public ResponseEntity<GetRoomCommentsOutput> getRoomComments(@PathVariable String roomId) {
         GetRoomCommentsInput input  = GetRoomCommentsInput.builder()
-                .roomId(roomId)
+                .roomId(UUID.fromString(roomId))
                 .build();
-        GetRoomCommentsOutput output = hotelService.getRoomComments(input);
+        GetRoomCommentsOutput output = getRoomCommentsService.getRoomComments(input);
         return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
@@ -59,12 +65,13 @@ public class HotelController {
     public ResponseEntity<LeaveRoomCommentOutput> leaveRoomComment(@PathVariable String roomId,
                                                                   @Valid @RequestBody LeaveRoomCommentInput input) {
         input = LeaveRoomCommentInput.builder()
-                .roomId(roomId)
+                .roomId(UUID.fromString(roomId))
                 .content(input.getContent())
                 .firstName(input.getFirstName())
                 .lastName(input.getLastName())
                 .build();
-        LeaveRoomCommentOutput output = hotelService.leaveRoomComment(input);
+
+        LeaveRoomCommentOutput output = leaveRoomCommentService.leaveRoomComment(input);
 
         return new ResponseEntity<>(output, HttpStatus.CREATED);
     }
@@ -84,11 +91,11 @@ public class HotelController {
     public ResponseEntity<EditCommentOutput> editComment(@PathVariable String commentId,
                                                          @Valid @RequestBody EditCommentInput input) {
         input = EditCommentInput.builder()
-                .id(commentId)
+                .id(UUID.fromString(commentId))
                 .content(input.getContent())
                 .build();
 
-        EditCommentOutput output = hotelService.editRoomComment(input);
+        EditCommentOutput output = editRoomCommentService.editRoomComment(input);
         return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
