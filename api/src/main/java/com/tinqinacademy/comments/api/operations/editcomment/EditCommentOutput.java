@@ -3,6 +3,8 @@ package com.tinqinacademy.comments.api.operations.editcomment;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -11,5 +13,5 @@ import lombok.*;
 @Builder
 public class EditCommentOutput {
     @Schema(example = "UUID")
-    private String id;
+    private UUID id;
 }

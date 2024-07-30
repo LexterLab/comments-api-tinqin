@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,7 +16,7 @@ import lombok.*;
 @ToString
 public class EditUserCommentInput {
     @JsonIgnore
-    private String commentId;
+    private UUID commentId;
     @Schema(example = "201A")
     @NotBlank(message = "Field roomNo cannot be blank")
     @Size(min = 4, max = 4, message = "Field roomNo must be 4 characters")
