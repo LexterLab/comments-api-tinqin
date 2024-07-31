@@ -1,9 +1,9 @@
-package com.tinqinacademy.comments.core.services;
+package com.tinqinacademy.comments.core.processors;
 
-import com.tinqinacademy.comments.api.contracts.GetRoomCommentsService;
+import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomComments;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsInput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsOutput;
-import com.tinqinacademy.comments.api.operations.roomcomment.RoomCommentOutput;
+import com.tinqinacademy.comments.api.operations.getroomcomments.RoomCommentOutput;
 import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class GetRoomCommentsServiceImpl implements GetRoomCommentsService {
+public class GetRoomCommentsImpl implements GetRoomComments {
     private final CommentRepository commentRepository;
     private final ConversionService conversionService;
 

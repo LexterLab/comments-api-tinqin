@@ -1,6 +1,7 @@
 package com.tinqinacademy.comments.api.operations.editusercomment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tinqinacademy.comments.api.base.OperationInput;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @ToString
-public class EditUserCommentInput {
+public class EditUserCommentInput implements OperationInput {
     @JsonIgnore
     private UUID commentId;
     @Schema(example = "201A")
