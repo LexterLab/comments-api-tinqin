@@ -1,7 +1,8 @@
 package com.tinqinacademy.comments.rest.controllers;
 
-import com.tinqinacademy.comments.api.contracts.DeleteRoomCommentService;
-import com.tinqinacademy.comments.api.contracts.EditUserCommentService;
+import com.tinqinacademy.comments.api.error.ErrorOutput;
+import com.tinqinacademy.comments.api.operations.deletecomment.DeleteRoom;
+import com.tinqinacademy.comments.api.operations.editusercomment.EditUserComment;
 import com.tinqinacademy.comments.api.operations.deletecomment.DeleteRoomCommentInput;
 import com.tinqinacademy.comments.api.operations.deletecomment.DeleteRoomCommentOutput;
 import com.tinqinacademy.comments.api.operations.editusercomment.EditUserCommentInput;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.vavr.control.Either;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,9 +24,9 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "System REST APIs")
-public class SystemController {
-    private final EditUserCommentService editUserCommentService;
-    private final DeleteRoomCommentService deleteRoomCommentService;
+public class SystemController extends BaseController {
+    private final EditUserComment editUserComment;
+    private final DeleteRoom deleteRoom;
 
 
     @Operation(
@@ -40,7 +42,7 @@ public class SystemController {
     }
     )
     @PutMapping(RestAPIRoutes.EDIT_USER_COMMENT)
-    public ResponseEntity<EditUserCommentOutput> editUserComment(@PathVariable String commentId,
+    public ResponseEntity<?> editUserComment(@PathVariable String commentId,
                                                                  @Valid @RequestBody EditUserCommentInput input) {
        input = EditUserCommentInput.builder()
                .commentId(UUID.fromString(commentId))
@@ -50,8 +52,8 @@ public class SystemController {
                .roomNo(input.getRoomNo())
                .build();
 
-       EditUserCommentOutput output = editUserCommentService.editUserComment(input);
-       return new ResponseEntity<>(output, HttpStatus.OK);
+       Either<ErrorOutput, EditUserCommentOutput> output = editUserComment.process(input);
+       return handleOutput(output, HttpStatus.OK);
     }
 
     @Operation(
@@ -67,10 +69,10 @@ public class SystemController {
     }
     )
     @DeleteMapping(RestAPIRoutes.DELETE_COMMENT)
-    public ResponseEntity<DeleteRoomCommentOutput> deleteUserComment(@PathVariable String commentId) {
+    public ResponseEntity<?> deleteUserComment(@PathVariable String commentId) {
         DeleteRoomCommentInput input = DeleteRoomCommentInput.builder()
                 .commentId(UUID.fromString(commentId)).build();
-        DeleteRoomCommentOutput output = deleteRoomCommentService.deleteRoomComment(input);
+        Either<ErrorOutput, DeleteRoomCommentOutput> output = deleteRoom.process(input);
         return new ResponseEntity<>(output, HttpStatus.OK);
     }
 }
