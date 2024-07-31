@@ -1,8 +1,8 @@
-package com.tinqinacademy.comments.core.services;
+package com.tinqinacademy.comments.core.errors;
 
-import com.tinqinacademy.comments.api.contracts.ErrorHandlerService;
-import com.tinqinacademy.comments.api.operations.error.Error;
-import com.tinqinacademy.comments.api.operations.error.ErrorOutput;
+import com.tinqinacademy.comments.api.error.ErrorHandlerService;
+import com.tinqinacademy.comments.api.error.Error;
+import com.tinqinacademy.comments.api.error.ErrorOutput;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 

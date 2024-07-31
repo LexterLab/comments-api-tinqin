@@ -1,4 +1,4 @@
-package com.tinqinacademy.comments.api.operations.error;
+package com.tinqinacademy.comments.api.error;
 
 import lombok.*;
 import org.springframework.http.HttpStatusCode;
