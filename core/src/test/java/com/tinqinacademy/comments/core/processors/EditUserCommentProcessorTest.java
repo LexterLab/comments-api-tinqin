@@ -1,16 +1,19 @@
-package com.tinqinacademy.comments.core.services;
+package com.tinqinacademy.comments.core.processors;
 
+import com.tinqinacademy.comments.api.error.ErrorOutput;
 import com.tinqinacademy.comments.api.exceptions.ResourceNotFoundException;
 import com.tinqinacademy.comments.api.operations.editusercomment.EditUserCommentInput;
 import com.tinqinacademy.comments.api.operations.editusercomment.EditUserCommentOutput;
 import com.tinqinacademy.comments.persistence.models.Comment;
 import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
+import io.vavr.control.Either;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.http.HttpStatus;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -19,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class EditUserCommentServiceImplTest {
+class EditUserCommentProcessorTest {
 
     @InjectMocks
-    private EditUserCommentServiceImpl service;
+    private EditUserCommentProcessor editUserComment;
 
     @Mock
     private CommentRepository commentRepository;
@@ -35,7 +38,7 @@ class EditUserCommentServiceImplTest {
     void shouldEditUserComment() {
         EditUserCommentInput input = EditUserCommentInput
                 .builder()
-                .commentId(UUID.randomUUID())
+                .commentId(String.valueOf(UUID.randomUUID()))
                 .firstName("First Name")
                 .lastName("Last Name")
                 .content("Content")
@@ -43,7 +46,7 @@ class EditUserCommentServiceImplTest {
 
         Comment comment = Comment
                 .builder()
-                .id(input.getCommentId())
+                .id(UUID.fromString(input.getCommentId()))
                 .roomId(UUID.randomUUID())
                 .build();
 
@@ -57,7 +60,7 @@ class EditUserCommentServiceImplTest {
                 .lastEditedBy("Admin")
                 .build();
 
-        when(commentRepository.findById(input.getCommentId())).thenReturn(Optional.of(comment));
+        when(commentRepository.findById(UUID.fromString(input.getCommentId()))).thenReturn(Optional.of(comment));
         when(conversionService.convert(input, Comment.class)).thenReturn(editedComment);
         when(commentRepository.save(editedComment)).thenReturn(editedComment);
 
@@ -66,23 +69,29 @@ class EditUserCommentServiceImplTest {
                 .id(editedComment.getId())
                 .build();
 
-        EditUserCommentOutput output = service.editUserComment(input);
+        Either<ErrorOutput,EditUserCommentOutput> output = editUserComment.process(input);
 
-        assertEquals(expectedOutput.toString(), output.toString());
+        assertEquals(expectedOutput.toString(), output.get().toString());
     }
 
     @Test
     void shouldThrowResourceNotFoundExceptionWhenEditingNonExistentUserComment() {
         EditUserCommentInput input = EditUserCommentInput
                 .builder()
-                .commentId(UUID.randomUUID())
+                .commentId(String.valueOf(UUID.randomUUID()))
                 .firstName("First Name")
                 .lastName("Last Name")
                 .content("Content")
                 .build();
 
-        when(commentRepository.findById(input.getCommentId())).thenThrow(ResourceNotFoundException.class);
+        ErrorOutput expectedOutput = ErrorOutput
+                .builder()
+                .statusCode(HttpStatus.NOT_FOUND)
+                .build();
 
-        assertThrows(ResourceNotFoundException.class, () -> service.editUserComment(input));
+        when(commentRepository.findById(UUID.fromString(input.getCommentId()))).thenThrow(ResourceNotFoundException.class);
+
+        Either<ErrorOutput,EditUserCommentOutput> output = editUserComment.process(input);
+        assertEquals(expectedOutput.getStatusCode().toString(), output.getLeft().getStatusCode().toString());
     }
 }

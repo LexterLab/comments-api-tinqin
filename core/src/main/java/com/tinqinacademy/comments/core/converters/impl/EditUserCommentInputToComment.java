@@ -5,6 +5,8 @@ import com.tinqinacademy.comments.core.converters.AbstractConverter;
 import com.tinqinacademy.comments.persistence.models.Comment;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class EditUserCommentInputToComment extends AbstractConverter<EditUserCommentInput, Comment> {
     @Override
@@ -17,7 +19,7 @@ public class EditUserCommentInputToComment extends AbstractConverter<EditUserCom
         Comment comment = Comment
                 .builder()
                 .content(source.getContent())
-                .id(source.getCommentId())
+                .id(UUID.fromString(source.getCommentId()))
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
                 .build();

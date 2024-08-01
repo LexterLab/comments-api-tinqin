@@ -1,10 +1,13 @@
 package com.tinqinacademy.comments.core.services;
 
+import com.tinqinacademy.comments.api.error.ErrorOutput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsInput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsOutput;
-import com.tinqinacademy.comments.api.operations.roomcomment.RoomCommentOutput;
+import com.tinqinacademy.comments.api.operations.getroomcomments.RoomCommentOutput;
+import com.tinqinacademy.comments.core.processors.GetRoomCommentsProcessor;
 import com.tinqinacademy.comments.persistence.models.Comment;
 import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
+import io.vavr.control.Either;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class GetRoomCommentsServiceImplTest {
+class GetRoomCommentsProcessorTest {
 
     @InjectMocks
-    private GetRoomCommentsServiceImpl getRoomCommentsServiceImpl;
+    private GetRoomCommentsProcessor getRoomComments;
 
     @Mock
     private CommentRepository commentRepository;
@@ -36,13 +39,13 @@ class GetRoomCommentsServiceImplTest {
     void shouldReturnAllRoomComments() {
         GetRoomCommentsInput input = GetRoomCommentsInput
                 .builder()
-                .roomId(UUID.randomUUID())
+                .roomId(String.valueOf(UUID.randomUUID()))
                 .build();
 
         Comment comment = Comment
                 .builder()
                 .id(UUID.randomUUID())
-                .roomId(input.getRoomId())
+                .roomId(UUID.fromString(input.getRoomId()))
                 .content("Content")
                 .firstName("FirstName")
                 .lastName("LastName")
@@ -67,11 +70,11 @@ class GetRoomCommentsServiceImplTest {
                 .roomComments(List.of(roomCommentOutput))
                 .build();
 
-        when(commentRepository.findAllByRoomId(input.getRoomId())).thenReturn(List.of(comment));
+        when(commentRepository.findAllByRoomId(UUID.fromString(input.getRoomId()))).thenReturn(List.of(comment));
         when(conversionService.convert(comment, RoomCommentOutput.class)).thenReturn(roomCommentOutput);
 
-        GetRoomCommentsOutput output = getRoomCommentsServiceImpl.getRoomComments(input);
+        Either<ErrorOutput, GetRoomCommentsOutput> output = getRoomComments.process(input);
 
-        assertEquals(expectedOutput.toString(), output.toString());
+        assertEquals(expectedOutput.toString(), output.get().toString());
     }
 }
