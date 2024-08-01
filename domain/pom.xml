@@ -8,15 +8,31 @@
         <version>${revision}</version>
     </parent>
 
+    <repositories>
+        <repository>
+            <id>hotel</id>
+            <name>hotel-api</name>
+            <url>file://Users/moldovexc/.m2/repository/com/tinqinacademy/hotel</url>
+        </repository>
+    </repositories>
+
     <artifactId>domain</artifactId>
-    <version>${revision}</version>
 
 
     <properties>
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.tinqinacademy.hotel</groupId>
+            <artifactId>restexport</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-jackson</artifactId>
+            <version>${feignjackson.version}</version>
+        </dependency>
     </dependencies>
 
 
