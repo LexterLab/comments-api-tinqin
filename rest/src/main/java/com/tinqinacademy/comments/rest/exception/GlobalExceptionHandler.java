@@ -1,8 +1,8 @@
 package com.tinqinacademy.comments.rest.exception;
 
-import com.tinqinacademy.comments.api.contracts.ErrorHandlerService;
+import com.tinqinacademy.comments.api.error.ErrorHandlerService;
 import com.tinqinacademy.comments.api.exceptions.ResourceNotFoundException;
-import com.tinqinacademy.comments.api.operations.error.ErrorOutput;
+import com.tinqinacademy.comments.api.error.ErrorOutput;
 import com.tinqinacademy.comments.rest.controllers.HotelController;
 import com.tinqinacademy.comments.rest.controllers.SystemController;
 import jakarta.servlet.http.HttpServletRequest;

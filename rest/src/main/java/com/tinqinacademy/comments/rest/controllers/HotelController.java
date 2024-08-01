@@ -1,8 +1,9 @@
 package com.tinqinacademy.comments.rest.controllers;
 
-import com.tinqinacademy.comments.api.contracts.EditRoomCommentService;
-import com.tinqinacademy.comments.api.contracts.GetRoomCommentsService;
-import com.tinqinacademy.comments.api.contracts.LeaveRoomCommentService;
+import com.tinqinacademy.comments.api.error.ErrorOutput;
+import com.tinqinacademy.comments.api.operations.editcomment.EditRoomComment;
+import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomComments;
+import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomComment;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentOutput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsInput;
@@ -14,22 +15,22 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.vavr.control.Either;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
 @Tag(name = "Hotel REST APIs")
-public class HotelController {
+public class HotelController extends BaseController {
 
-    private final GetRoomCommentsService getRoomCommentsService;
-    private final LeaveRoomCommentService leaveRoomCommentService;
-    private final EditRoomCommentService editRoomCommentService;
+    private final GetRoomComments getRoomComments;
+    private final LeaveRoomComment leaveRoomComment;
+    private final EditRoomComment editRoomComment;
 
     @Operation(
             summary = "Get room comments Rest API",
@@ -42,12 +43,12 @@ public class HotelController {
     }
     )
     @GetMapping(RestAPIRoutes.GET_ROOM_COMMENTS)
-    public ResponseEntity<GetRoomCommentsOutput> getRoomComments(@PathVariable String roomId) {
+    public ResponseEntity<?> getRoomComments(@PathVariable String roomId) {
         GetRoomCommentsInput input  = GetRoomCommentsInput.builder()
-                .roomId(UUID.fromString(roomId))
+                .roomId(roomId)
                 .build();
-        GetRoomCommentsOutput output = getRoomCommentsService.getRoomComments(input);
-        return new ResponseEntity<>(output, HttpStatus.OK);
+        Either<ErrorOutput, GetRoomCommentsOutput> output = getRoomComments.process(input);
+        return handleOutput(output, HttpStatus.OK);
     }
 
     @Operation(
@@ -62,18 +63,18 @@ public class HotelController {
     }
     )
     @PostMapping(RestAPIRoutes.LEAVE_ROOM_COMMENT)
-    public ResponseEntity<LeaveRoomCommentOutput> leaveRoomComment(@PathVariable String roomId,
+    public ResponseEntity<?> leaveRoomComment(@PathVariable String roomId,
                                                                   @Valid @RequestBody LeaveRoomCommentInput input) {
         input = LeaveRoomCommentInput.builder()
-                .roomId(UUID.fromString(roomId))
+                .roomId(roomId)
                 .content(input.getContent())
                 .firstName(input.getFirstName())
                 .lastName(input.getLastName())
                 .build();
 
-        LeaveRoomCommentOutput output = leaveRoomCommentService.leaveRoomComment(input);
+        Either<ErrorOutput,LeaveRoomCommentOutput> output = leaveRoomComment.process(input);
 
-        return new ResponseEntity<>(output, HttpStatus.CREATED);
+        return handleOutput(output, HttpStatus.CREATED);
     }
 
     @Operation(
@@ -88,15 +89,15 @@ public class HotelController {
     }
     )
     @PatchMapping(RestAPIRoutes.EDIT_COMMENT)
-    public ResponseEntity<EditCommentOutput> editComment(@PathVariable String commentId,
+    public ResponseEntity<?> editComment(@PathVariable String commentId,
                                                          @Valid @RequestBody EditCommentInput input) {
         input = EditCommentInput.builder()
-                .id(UUID.fromString(commentId))
+                .id(commentId)
                 .content(input.getContent())
                 .build();
 
-        EditCommentOutput output = editRoomCommentService.editRoomComment(input);
-        return new ResponseEntity<>(output, HttpStatus.OK);
+        Either<ErrorOutput, EditCommentOutput> output = editRoomComment.process(input);
+        return handleOutput(output, HttpStatus.OK);
     }
 
 }

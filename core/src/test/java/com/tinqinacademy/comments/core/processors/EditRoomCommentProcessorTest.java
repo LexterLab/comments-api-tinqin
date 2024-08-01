@@ -1,15 +1,19 @@
-package com.tinqinacademy.comments.core.services;
+package com.tinqinacademy.comments.core.processors;
 
+import com.tinqinacademy.comments.api.error.ErrorOutput;
 import com.tinqinacademy.comments.api.exceptions.ResourceNotFoundException;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentOutput;
 import com.tinqinacademy.comments.persistence.models.Comment;
 import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
+import io.vavr.control.Either;
+import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -18,29 +22,32 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class EditRoomCommentServiceImplTest {
+class EditRoomCommentProcessorTest {
 
     @InjectMocks
-    private EditRoomCommentServiceImpl editRoomCommentService;
+    private EditRoomCommentProcessor editRoomComment;
 
     @Mock
     private CommentRepository commentRepository;
+
+    @Mock
+    private Validator validator;
 
     @Test
     void shouldEditRoomComment() {
         EditCommentInput input = EditCommentInput
                 .builder()
-                .id(UUID.randomUUID())
+                .id(String.valueOf(UUID.randomUUID()))
                 .content("Random content")
                 .build();
 
         Comment comment = Comment
                 .builder()
-                .id(input.getId())
+                .id(UUID.fromString(input.getId()))
                 .content("Content")
                 .build();
 
-        when(commentRepository.findById(input.getId())).thenReturn(Optional.of(comment));
+        when(commentRepository.findById(UUID.fromString(input.getId()))).thenReturn(Optional.of(comment));
         when(commentRepository.save(comment)).thenReturn(comment);
 
         EditCommentOutput expectedOutput = EditCommentOutput
@@ -48,21 +55,28 @@ class EditRoomCommentServiceImplTest {
                 .id(comment.getId())
                 .build();
 
-        EditCommentOutput output = editRoomCommentService.editRoomComment(input);
+        Either<ErrorOutput, EditCommentOutput> output = editRoomComment.process(input);
 
-        assertEquals(expectedOutput.toString(), output.toString());
+        assertEquals(expectedOutput.toString(), output.get().toString());
     }
 
     @Test
     void shouldThrowResourceNotFoundExceptionWhenEditingNonExistingRoomComment() {
         EditCommentInput input = EditCommentInput
                 .builder()
-                .id(UUID.randomUUID())
+                .id(String.valueOf(UUID.randomUUID()))
                 .content("Random content")
                 .build();
 
-        when(commentRepository.findById(input.getId())).thenThrow(ResourceNotFoundException.class);
+        ErrorOutput expectedOutput = ErrorOutput.builder()
+                .statusCode(HttpStatus.NOT_FOUND)
+                .build();
 
-       assertThrows(ResourceNotFoundException.class, () -> editRoomCommentService.editRoomComment(input));
+        when(commentRepository.findById(UUID.fromString(input.getId()))).thenThrow(ResourceNotFoundException.class);
+
+
+        Either<ErrorOutput, EditCommentOutput> output = editRoomComment.process(input);
+
+        assertEquals(expectedOutput.getStatusCode().toString(), output.getLeft().getStatusCode().toString());
     }
 }

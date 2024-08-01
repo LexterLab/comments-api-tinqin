@@ -4,7 +4,7 @@
 //import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 //import com.tinqinacademy.comments.api.operations.editcomment.EditCommentOutput;
 //import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentInput;
-//import com.tinqinacademy.comments.api.operations.roomcomment.RoomCommentOutput;
+//import com.tinqinacademy.comments.api.operations.getroomcomments.RoomCommentOutput;
 //import com.tinqinacademy.comments.api.RestAPIRoutes;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;

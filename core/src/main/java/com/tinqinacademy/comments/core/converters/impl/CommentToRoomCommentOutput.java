@@ -1,6 +1,6 @@
 package com.tinqinacademy.comments.core.converters.impl;
 
-import com.tinqinacademy.comments.api.operations.roomcomment.RoomCommentOutput;
+import com.tinqinacademy.comments.api.operations.getroomcomments.RoomCommentOutput;
 import com.tinqinacademy.comments.core.converters.AbstractConverter;
 import com.tinqinacademy.comments.persistence.models.Comment;
 import org.springframework.stereotype.Component;

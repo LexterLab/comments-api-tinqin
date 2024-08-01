@@ -1,8 +1,9 @@
 package com.tinqinacademy.comments.api.operations.deletecomment;
 
+import com.tinqinacademy.comments.api.base.OperationInput;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-
-import java.util.UUID;
+import org.hibernate.validator.constraints.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,6 +11,8 @@ import java.util.UUID;
 @Setter
 @Builder
 @ToString
-public class DeleteRoomCommentInput {
-    private UUID commentId;
+public class DeleteRoomCommentInput implements OperationInput {
+    @NotBlank(message = "Field commentId must not be blank")
+    @UUID(message = "Field commentId must be UUID")
+    private String commentId;
 }

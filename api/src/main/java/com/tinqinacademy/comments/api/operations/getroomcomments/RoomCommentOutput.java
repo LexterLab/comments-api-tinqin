@@ -1,4 +1,4 @@
-package com.tinqinacademy.comments.api.operations.roomcomment;
+package com.tinqinacademy.comments.api.operations.getroomcomments;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

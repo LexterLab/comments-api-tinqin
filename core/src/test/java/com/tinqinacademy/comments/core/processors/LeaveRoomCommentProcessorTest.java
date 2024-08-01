@@ -1,9 +1,11 @@
-package com.tinqinacademy.comments.core.services;
+package com.tinqinacademy.comments.core.processors;
 
+import com.tinqinacademy.comments.api.error.ErrorOutput;
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentInput;
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentOutput;
 import com.tinqinacademy.comments.persistence.models.Comment;
 import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
+import io.vavr.control.Either;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class LeaveRoomCommentServiceImplTest {
+class LeaveRoomCommentProcessorTest {
 
     @InjectMocks
-    private LeaveRoomCommentServiceImpl leaveRoomCommentServiceImpl;
+    private LeaveRoomCommentProcessor leaveRoomComment;
 
     @Mock
     private CommentRepository commentRepository;
@@ -33,7 +35,7 @@ class LeaveRoomCommentServiceImplTest {
     void shouldLeaveRoomComment() {
         LeaveRoomCommentInput input = LeaveRoomCommentInput
                 .builder()
-                .roomId(UUID.randomUUID())
+                .roomId(String.valueOf(UUID.randomUUID()))
                 .content("Content")
                 .firstName("FirstName")
                 .lastName("LastName")
@@ -45,15 +47,15 @@ class LeaveRoomCommentServiceImplTest {
                 .firstName(input.getFirstName())
                 .lastName(input.getLastName())
                 .content(input.getContent())
-                .roomId(input.getRoomId())
+                .roomId(UUID.fromString(input.getRoomId()))
                 .publishDate(LocalDateTime.now())
                 .build();
 
         when(conversionService.convert(input, Comment.class)).thenReturn(comment);
         when(commentRepository.save(comment)).thenReturn(comment);
 
-        LeaveRoomCommentOutput output = leaveRoomCommentServiceImpl.leaveRoomComment(input);
+       Either<ErrorOutput, LeaveRoomCommentOutput> output = leaveRoomComment.process(input);
 
-        assertEquals(comment.getId(), output.getId());
+        assertEquals(comment.getId(), output.get().getId());
     }
 }

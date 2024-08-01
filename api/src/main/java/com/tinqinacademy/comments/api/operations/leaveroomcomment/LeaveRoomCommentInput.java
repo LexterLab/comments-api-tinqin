@@ -1,12 +1,12 @@
 package com.tinqinacademy.comments.api.operations.leaveroomcomment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tinqinacademy.comments.api.base.OperationInput;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,9 +14,9 @@ import java.util.UUID;
 @Setter
 @Builder
 @ToString
-public class LeaveRoomCommentInput {
+public class LeaveRoomCommentInput  implements OperationInput {
     @JsonIgnore
-    private UUID roomId;
+    private String roomId;
     @Schema(example = "George")
     @NotBlank(message = "Field firstName cannot be blank")
     @Size(min = 2, max = 30, message = "Field firstName must be between 2-30 characters")
