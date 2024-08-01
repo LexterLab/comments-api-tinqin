@@ -34,6 +34,7 @@ public class EditUserCommentProcessor extends BaseProcessor implements EditUserC
         log.info("Start editUserComment {}", input);
 
          return   Try.of(() -> {
+            validateInput(input);
             Comment comment = fetchCommentFromInput(input);
 
             Comment editedComment = conversionService.convert(input, Comment.class);

@@ -34,6 +34,7 @@ public class EditRoomCommentProcessor extends BaseProcessor implements EditRoomC
         log.info("Start editRoomComment {}", input);
 
        return Try.of(() -> {
+           validateInput(input);
            Comment comment = fetchCommentFromInput(input);
 
            comment.setContent(input.getContent());

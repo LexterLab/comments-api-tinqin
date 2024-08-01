@@ -7,6 +7,7 @@ import com.tinqinacademy.comments.api.operations.editusercomment.EditUserComment
 import com.tinqinacademy.comments.persistence.models.Comment;
 import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
 import io.vavr.control.Either;
+import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,6 +34,8 @@ class EditUserCommentProcessorTest {
     @Mock
     private ConversionService conversionService;
 
+    @Mock
+    private Validator validator;
 
     @Test
     void shouldEditUserComment() {
