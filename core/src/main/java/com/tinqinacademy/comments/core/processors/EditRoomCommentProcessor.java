@@ -15,6 +15,8 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static io.vavr.API.Match;
 
 @Slf4j
@@ -59,8 +61,8 @@ public class EditRoomCommentProcessor extends BaseProcessor implements EditRoomC
     private Comment fetchCommentFromInput(EditCommentInput input) {
         log.info("Start fetchCommentFromInput {}", input);
 
-        Comment comment = commentRepository.findById(input.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", input.getId().toString()));
+        Comment comment = commentRepository.findById(UUID.fromString(input.getId()))
+                .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", input.getId()));
 
         log.info("End fetchCommentFromInput {}", comment);
         return comment;

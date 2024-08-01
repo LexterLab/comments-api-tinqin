@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +16,7 @@ import java.util.UUID;
 @ToString
 public class LeaveRoomCommentInput  implements OperationInput {
     @JsonIgnore
-    private UUID roomId;
+    private String roomId;
     @Schema(example = "George")
     @NotBlank(message = "Field firstName cannot be blank")
     @Size(min = 2, max = 30, message = "Field firstName must be between 2-30 characters")

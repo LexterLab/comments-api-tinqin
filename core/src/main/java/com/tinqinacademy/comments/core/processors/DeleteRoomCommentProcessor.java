@@ -15,14 +15,16 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 import static io.vavr.API.Match;
 
 @Service
 @Slf4j
-public class DeleteRoomProcessor extends BaseProcessor implements DeleteRoom {
+public class DeleteRoomCommentProcessor extends BaseProcessor implements DeleteRoom {
     private final CommentRepository commentRepository;
 
-    public DeleteRoomProcessor(ConversionService conversionService, Validator validator, CommentRepository commentRepository) {
+    public DeleteRoomCommentProcessor(ConversionService conversionService, Validator validator, CommentRepository commentRepository) {
         super(conversionService, validator);
         this.commentRepository = commentRepository;
     }
@@ -52,8 +54,8 @@ public class DeleteRoomProcessor extends BaseProcessor implements DeleteRoom {
     private Comment fetchCommentFromInput(DeleteRoomCommentInput input) {
         log.info("Start fetchCommentFromInput {}", input);
 
-        Comment comment = commentRepository.findById(input.getCommentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", input.getCommentId().toString()));
+        Comment comment = commentRepository.findById(UUID.fromString(input.getCommentId()))
+                .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", input.getCommentId()));
 
         log.info("End fetchCommentFromInput {}", comment);
         return comment;

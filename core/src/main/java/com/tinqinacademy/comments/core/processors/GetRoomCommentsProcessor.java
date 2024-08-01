@@ -14,6 +14,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 import static io.vavr.API.Match;
 
@@ -51,7 +52,7 @@ public class GetRoomCommentsProcessor extends BaseProcessor implements GetRoomCo
     private List<RoomCommentOutput> fetchRoomComments(GetRoomCommentsInput input) {
         log.info("Start fetchRoomComments {}", input);
 
-        List<RoomCommentOutput> roomComments = commentRepository.findAllByRoomId(input.getRoomId()).stream()
+        List<RoomCommentOutput> roomComments = commentRepository.findAllByRoomId(UUID.fromString(input.getRoomId())).stream()
                 .map(comment -> conversionService.convert(comment, RoomCommentOutput.class))
                 .toList();
 

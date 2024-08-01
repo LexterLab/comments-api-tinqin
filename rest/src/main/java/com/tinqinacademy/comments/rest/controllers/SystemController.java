@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,7 +44,7 @@ public class SystemController extends BaseController {
     public ResponseEntity<?> editUserComment(@PathVariable String commentId,
                                                                  @Valid @RequestBody EditUserCommentInput input) {
        input = EditUserCommentInput.builder()
-               .commentId(UUID.fromString(commentId))
+               .commentId(commentId)
                .content(input.getContent())
                .firstName(input.getFirstName())
                .lastName(input.getLastName())
@@ -71,7 +70,7 @@ public class SystemController extends BaseController {
     @DeleteMapping(RestAPIRoutes.DELETE_COMMENT)
     public ResponseEntity<?> deleteUserComment(@PathVariable String commentId) {
         DeleteRoomCommentInput input = DeleteRoomCommentInput.builder()
-                .commentId(UUID.fromString(commentId)).build();
+                .commentId(commentId).build();
         Either<ErrorOutput, DeleteRoomCommentOutput> output = deleteRoom.process(input);
         return new ResponseEntity<>(output, HttpStatus.OK);
     }

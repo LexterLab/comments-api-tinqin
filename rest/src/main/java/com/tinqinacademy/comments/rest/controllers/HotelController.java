@@ -22,7 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -46,7 +45,7 @@ public class HotelController extends BaseController {
     @GetMapping(RestAPIRoutes.GET_ROOM_COMMENTS)
     public ResponseEntity<?> getRoomComments(@PathVariable String roomId) {
         GetRoomCommentsInput input  = GetRoomCommentsInput.builder()
-                .roomId(UUID.fromString(roomId))
+                .roomId(roomId)
                 .build();
         Either<ErrorOutput, GetRoomCommentsOutput> output = getRoomComments.process(input);
         return handleOutput(output, HttpStatus.OK);
@@ -67,7 +66,7 @@ public class HotelController extends BaseController {
     public ResponseEntity<?> leaveRoomComment(@PathVariable String roomId,
                                                                   @Valid @RequestBody LeaveRoomCommentInput input) {
         input = LeaveRoomCommentInput.builder()
-                .roomId(UUID.fromString(roomId))
+                .roomId(roomId)
                 .content(input.getContent())
                 .firstName(input.getFirstName())
                 .lastName(input.getLastName())
@@ -93,7 +92,7 @@ public class HotelController extends BaseController {
     public ResponseEntity<?> editComment(@PathVariable String commentId,
                                                          @Valid @RequestBody EditCommentInput input) {
         input = EditCommentInput.builder()
-                .id(UUID.fromString(commentId))
+                .id(commentId)
                 .content(input.getContent())
                 .build();
 
