@@ -34,6 +34,7 @@ public class DeleteRoomCommentProcessor extends BaseProcessor implements DeleteR
         log.info("Start deleteRoomComment {}", input);
 
         return Try.of(() -> {
+            validateInput(input);
             Comment comment = fetchCommentFromInput(input);
 
             commentRepository.delete(comment);
@@ -44,6 +45,7 @@ public class DeleteRoomCommentProcessor extends BaseProcessor implements DeleteR
             return output;
         }).toEither()
                 .mapLeft(throwable -> Match(throwable).of(
+                        validatorCase(throwable),
                         customCase(throwable, HttpStatus.NOT_FOUND, ResourceNotFoundException.class),
                         defaultCase(throwable)
                 ));
