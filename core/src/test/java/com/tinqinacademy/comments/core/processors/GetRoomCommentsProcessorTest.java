@@ -1,10 +1,9 @@
-package com.tinqinacademy.comments.core.services;
+package com.tinqinacademy.comments.core.processors;
 
 import com.tinqinacademy.comments.api.error.ErrorOutput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsInput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsOutput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.RoomCommentOutput;
-import com.tinqinacademy.comments.core.processors.GetRoomCommentsProcessor;
 import com.tinqinacademy.comments.persistence.models.Comment;
 import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
 import io.vavr.control.Either;
