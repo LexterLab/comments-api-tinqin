@@ -2,6 +2,8 @@ package com.tinqinacademy.comments.api.operations.getroomcomments;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -9,5 +11,5 @@ import lombok.*;
 @ToString
 @Builder
 public class GetRoomCommentsInput {
-    private String roomId;
+    private UUID roomId;
 }

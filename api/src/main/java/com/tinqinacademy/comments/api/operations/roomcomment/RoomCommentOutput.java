@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,8 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class RoomCommentOutput {
-    @Schema(example = "UUID")
-    private String id;
+    private UUID id;
     @Schema(example = "George")
     private String firstName;
     @Schema(example = "Russell")

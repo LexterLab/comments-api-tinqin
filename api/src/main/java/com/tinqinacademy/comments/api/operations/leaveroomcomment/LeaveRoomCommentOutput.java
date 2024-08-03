@@ -3,6 +3,8 @@ package com.tinqinacademy.comments.api.operations.leaveroomcomment;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -10,6 +12,5 @@ import lombok.*;
 @ToString
 @Builder
 public class LeaveRoomCommentOutput {
-    @Schema(example = "UUID")
-    private String id;
+    private UUID id;
 }
