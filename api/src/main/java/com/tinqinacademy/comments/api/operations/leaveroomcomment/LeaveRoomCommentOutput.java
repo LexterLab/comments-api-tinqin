@@ -1,6 +1,6 @@
 package com.tinqinacademy.comments.api.operations.leaveroomcomment;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.tinqinacademy.comments.api.base.OperationOutput;
 import lombok.*;
 
 import java.util.UUID;
@@ -11,6 +11,6 @@ import java.util.UUID;
 @Setter
 @ToString
 @Builder
-public class LeaveRoomCommentOutput {
+public class LeaveRoomCommentOutput implements OperationOutput {
     private UUID id;
 }

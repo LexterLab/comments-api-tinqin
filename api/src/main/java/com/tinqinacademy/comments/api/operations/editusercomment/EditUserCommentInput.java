@@ -1,12 +1,13 @@
 package com.tinqinacademy.comments.api.operations.editusercomment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tinqinacademy.comments.api.base.OperationInput;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.validator.constraints.UUID;
 
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,9 +15,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @ToString
-public class EditUserCommentInput {
+public class EditUserCommentInput implements OperationInput {
     @JsonIgnore
-    private UUID commentId;
+    @UUID(message = "Field commentId must be UUID")
+    @NotBlank(message = "Field commentId must not be blank")
+    private String commentId;
     @Schema(example = "201A")
     @NotBlank(message = "Field roomNo cannot be blank")
     @Size(min = 4, max = 4, message = "Field roomNo must be 4 characters")
