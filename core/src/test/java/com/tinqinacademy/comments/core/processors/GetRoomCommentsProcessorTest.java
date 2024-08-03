@@ -7,6 +7,7 @@ import com.tinqinacademy.comments.api.operations.getroomcomments.RoomCommentOutp
 import com.tinqinacademy.comments.persistence.models.Comment;
 import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
 import io.vavr.control.Either;
+import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,12 +34,15 @@ class GetRoomCommentsProcessorTest {
     @Mock
     private ConversionService conversionService;
 
+    @Mock
+    private Validator validator;
+
 
     @Test
     void shouldReturnAllRoomComments() {
         GetRoomCommentsInput input = GetRoomCommentsInput
                 .builder()
-                .roomId(String.valueOf(UUID.randomUUID()))
+                .roomId("2f4e39c4-6682-43b8-91d9-66418540c21b")
                 .build();
 
         Comment comment = Comment
