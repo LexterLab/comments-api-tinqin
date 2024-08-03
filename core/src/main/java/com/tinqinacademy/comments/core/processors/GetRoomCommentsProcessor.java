@@ -33,6 +33,7 @@ public class GetRoomCommentsProcessor extends BaseProcessor implements GetRoomCo
         log.info("Start getRoomComments {}", input);
 
         return Try.of(() -> {
+            validateInput(input);
             List<RoomCommentOutput> roomComments = fetchRoomComments(input);
 
             GetRoomCommentsOutput output = GetRoomCommentsOutput.builder()
@@ -44,6 +45,7 @@ public class GetRoomCommentsProcessor extends BaseProcessor implements GetRoomCo
             return output;
         }).toEither()
                 .mapLeft(throwable -> Match(throwable).of(
+                        validatorCase(throwable),
                         defaultCase(throwable)
                 ));
     }
