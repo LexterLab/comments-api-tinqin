@@ -17,6 +17,6 @@ public class HotelClientConfig {
         return Feign.builder()
                 .encoder(new JacksonEncoder(objectMapper))
                 .decoder(new JacksonDecoder(objectMapper))
-                .target(HotelClient.class, "http://localhost:8080");
+                .target(HotelClient.class, "http://localhost:8080/api/v1");
     }
 }

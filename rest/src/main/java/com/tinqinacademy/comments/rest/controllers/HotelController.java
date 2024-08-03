@@ -16,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.vavr.control.Either;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,8 +62,7 @@ public class HotelController extends BaseController {
     }
     )
     @PostMapping(RestAPIRoutes.LEAVE_ROOM_COMMENT)
-    public ResponseEntity<?> leaveRoomComment(@PathVariable String roomId,
-                                                                  @Valid @RequestBody LeaveRoomCommentInput input) {
+    public ResponseEntity<?> leaveRoomComment(@PathVariable String roomId, @RequestBody LeaveRoomCommentInput input) {
         input = LeaveRoomCommentInput.builder()
                 .roomId(roomId)
                 .content(input.getContent())
@@ -89,8 +87,7 @@ public class HotelController extends BaseController {
     }
     )
     @PatchMapping(RestAPIRoutes.EDIT_COMMENT)
-    public ResponseEntity<?> editComment(@PathVariable String commentId,
-                                                         @Valid @RequestBody EditCommentInput input) {
+    public ResponseEntity<?> editComment(@PathVariable String commentId, @RequestBody EditCommentInput input) {
         input = EditCommentInput.builder()
                 .id(commentId)
                 .content(input.getContent())

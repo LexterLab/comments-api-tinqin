@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.validator.constraints.UUID;
 
 
 @AllArgsConstructor
@@ -16,6 +17,8 @@ import lombok.*;
 @ToString
 public class LeaveRoomCommentInput  implements OperationInput {
     @JsonIgnore
+    @NotBlank(message = "Field roomId must not be blank")
+    @UUID(message = "Field roomId must be UUID")
     private String roomId;
     @Schema(example = "George")
     @NotBlank(message = "Field firstName cannot be blank")
