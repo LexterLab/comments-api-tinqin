@@ -41,8 +41,7 @@ public class SystemController extends BaseController {
     }
     )
     @PutMapping(RestAPIRoutes.EDIT_USER_COMMENT)
-    public ResponseEntity<?> editUserComment(@PathVariable String commentId,
-                                                                 @Valid @RequestBody EditUserCommentInput input) {
+    public ResponseEntity<?> editUserComment(@PathVariable String commentId, @RequestBody EditUserCommentInput input) {
        input = EditUserCommentInput.builder()
                .commentId(commentId)
                .content(input.getContent())
