@@ -39,16 +39,26 @@ class EditRoomCommentProcessorTest {
                 .builder()
                 .id(String.valueOf(UUID.randomUUID()))
                 .content("Random content")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         Comment comment = Comment
                 .builder()
                 .id(UUID.fromString(input.getId()))
+                .userId(UUID.fromString(input.getUserId()))
                 .content("Content")
                 .build();
 
+        Comment updatedComment = Comment
+                .builder()
+                .id(comment.getId())
+                .lastEditedBy(UUID.fromString(input.getUserId()))
+                .content(input.getContent())
+                .build();
+
+
         when(commentRepository.findById(UUID.fromString(input.getId()))).thenReturn(Optional.of(comment));
-        when(commentRepository.save(comment)).thenReturn(comment);
+        when(commentRepository.save(comment)).thenReturn(updatedComment);
 
         EditCommentOutput expectedOutput = EditCommentOutput
                 .builder()

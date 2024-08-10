@@ -21,6 +21,8 @@ public class LeaveRoomCommentInputToComment extends AbstractConverter<LeaveRoomC
                 .content(source.getContent())
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
+                .userId(UUID.fromString(source.getUserId()))
+                .roomId(UUID.fromString(source.getRoomId()))
                 .build();
 
         return comment;

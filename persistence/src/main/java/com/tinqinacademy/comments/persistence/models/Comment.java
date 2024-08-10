@@ -37,8 +37,11 @@ public class Comment {
     @UpdateTimestamp
     private LocalDateTime lastEditedDate;
 
-    private String lastEditedBy;
+    private UUID lastEditedBy;
 
     @Column(nullable = false)
     private UUID roomId;
+
+    @Column(nullable = false)
+    private UUID userId;
 }

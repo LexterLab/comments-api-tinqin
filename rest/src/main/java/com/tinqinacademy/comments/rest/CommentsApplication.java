@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = {"com.tinqinacademy.comments", "com.tinqinacademy.comments.domain"})
+@SpringBootApplication(scanBasePackages = {"com.tinqinacademy.comments"})
 @EntityScan(basePackages = {"com.tinqinacademy.comments.persistence.models"})
 @EnableJpaRepositories(basePackages = {"com.tinqinacademy.comments.persistence.repositories"})
 @EnableFeignClients(basePackages = {"com.tinqinacademy.comments"})

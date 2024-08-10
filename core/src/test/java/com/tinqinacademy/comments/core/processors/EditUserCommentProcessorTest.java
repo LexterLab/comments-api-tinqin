@@ -60,7 +60,7 @@ class EditUserCommentProcessorTest {
                 .firstName(input.getFirstName())
                 .lastName(input.getLastName())
                 .content(input.getContent())
-                .lastEditedBy("Admin")
+                .lastEditedBy(UUID.randomUUID())
                 .build();
 
         when(commentRepository.findById(UUID.fromString(input.getCommentId()))).thenReturn(Optional.of(comment));

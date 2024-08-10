@@ -1,6 +1,7 @@
 package com.tinqinacademy.comments.core.processors;
 
 import com.tinqinacademy.comments.api.error.ErrorOutput;
+import com.tinqinacademy.comments.api.exceptions.CommentUserMismatchException;
 import com.tinqinacademy.comments.api.operations.editcomment.EditRoomComment;
 import com.tinqinacademy.comments.api.exceptions.ResourceNotFoundException;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
@@ -37,8 +38,10 @@ public class EditRoomCommentProcessor extends BaseProcessor implements EditRoomC
            validateInput(input);
            Comment comment = fetchCommentFromInput(input);
 
+           checkIfUserMatchesComment(input, comment);
+
            comment.setContent(input.getContent());
-           comment.setLastEditedBy(comment.getFirstName() + " " + comment.getLastName());
+           comment.setLastEditedBy(UUID.fromString(input.getUserId()));
 
            commentRepository.save(comment);
 
@@ -52,9 +55,10 @@ public class EditRoomCommentProcessor extends BaseProcessor implements EditRoomC
            return output;
         }).toEither()
                .mapLeft(throwable -> Match(throwable).of(
-               customCase(throwable, HttpStatus.NOT_FOUND, ResourceNotFoundException.class),
-               validatorCase(throwable),
-               defaultCase(throwable)
+                       validatorCase(throwable),
+                       customCase(throwable, HttpStatus.NOT_FOUND, ResourceNotFoundException.class),
+                       customCase(throwable, HttpStatus.BAD_REQUEST, CommentUserMismatchException.class),
+                       defaultCase(throwable)
        ));
 
     }
@@ -67,5 +71,14 @@ public class EditRoomCommentProcessor extends BaseProcessor implements EditRoomC
 
         log.info("End fetchCommentFromInput {}", comment);
         return comment;
+    }
+
+    private void checkIfUserMatchesComment(EditCommentInput input, Comment comment) {
+        log.info("Start checkIfUserMatchesComment {}", input);
+
+        if (!comment.getUserId().equals(UUID.fromString(input.getUserId()))) {
+            throw new CommentUserMismatchException(input.getId(), comment.getUserId().toString());
+        }
+
     }
 }

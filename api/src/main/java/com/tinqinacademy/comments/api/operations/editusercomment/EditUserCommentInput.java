@@ -20,10 +20,9 @@ public class EditUserCommentInput implements OperationInput {
     @UUID(message = "Field commentId must be UUID")
     @NotBlank(message = "Field commentId must not be blank")
     private String commentId;
-    @Schema(example = "201A")
-    @NotBlank(message = "Field roomNo cannot be blank")
-    @Size(min = 4, max = 4, message = "Field roomNo must be 4 characters")
-    private String roomNo;
+    @NotBlank(message = "Field roomId cannot be blank")
+    @UUID(message = "Field roomId must be UUID")
+    private String roomId;
     @Schema(example = "Lewis")
     @NotBlank(message = "Field firstName cannot be blank")
     @Size(max = 30, min = 2, message = "Field firstName must be 2-30 characters")
@@ -36,4 +35,7 @@ public class EditUserCommentInput implements OperationInput {
     @NotBlank(message = "Field content cannot be blank")
     @Size(max = 500, min = 5, message = "Field content must be 5-500 characters")
     private String content;
+    @UUID(message = "Field userId must be UUID")
+    @NotBlank(message = "Field userid must not be blank")
+    private String userId;
 }

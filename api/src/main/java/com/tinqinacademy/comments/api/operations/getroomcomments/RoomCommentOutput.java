@@ -18,10 +18,10 @@ public class RoomCommentOutput {
     private String firstName;
     @Schema(example = "Russell")
     private String lastName;
+    private UUID userId;
     @Schema(example = "Insane room 10/10")
     private String content;
     private LocalDateTime publishDate;
     private LocalDateTime lastEditedDate;
-    @Schema(example = "George Russell")
-    private String lastEditedBy;
+    private UUID lastEditedBy;
 }

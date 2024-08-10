@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.vavr.control.Either;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +44,10 @@ public class SystemController extends BaseController {
        input = EditUserCommentInput.builder()
                .commentId(commentId)
                .content(input.getContent())
+               .userId(input.getUserId())
                .firstName(input.getFirstName())
                .lastName(input.getLastName())
-               .roomNo(input.getRoomNo())
+               .roomId(input.getRoomId())
                .build();
 
        Either<ErrorOutput, EditUserCommentOutput> output = editUserComment.process(input);
