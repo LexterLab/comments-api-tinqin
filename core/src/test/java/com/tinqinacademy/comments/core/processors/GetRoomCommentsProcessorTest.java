@@ -53,7 +53,7 @@ class GetRoomCommentsProcessorTest {
                 .firstName("FirstName")
                 .lastName("LastName")
                 .publishDate(LocalDateTime.now().minusDays(2))
-                .lastEditedBy("John")
+                .lastEditedBy(UUID.randomUUID())
                 .lastEditedDate(LocalDateTime.now())
                 .build();
 

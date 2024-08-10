@@ -5,7 +5,6 @@ import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomComme
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentOutput;
 import com.tinqinacademy.comments.persistence.models.Comment;
 import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
-import com.tinqinacademy.hotel.api.operations.getroom.GetRoomOutput;
 import com.tinqinacademy.hotel.restexport.HotelClient;
 import io.vavr.control.Either;
 import jakarta.validation.Validator;
@@ -48,12 +47,9 @@ class LeaveRoomCommentProcessorTest {
                 .content("Content")
                 .firstName("FirstName")
                 .lastName("LastName")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
-        GetRoomOutput roomOutput = GetRoomOutput
-                .builder()
-                .id(UUID.fromString(input.getRoomId()))
-                .build();
 
         Comment comment = Comment
                 .builder()
@@ -65,7 +61,6 @@ class LeaveRoomCommentProcessorTest {
                 .publishDate(LocalDateTime.now())
                 .build();
 
-        when(hotelClient.getRoomById(input.getRoomId())).thenReturn(roomOutput);
         when(conversionService.convert(input, Comment.class)).thenReturn(comment);
         when(commentRepository.save(comment)).thenReturn(comment);
 

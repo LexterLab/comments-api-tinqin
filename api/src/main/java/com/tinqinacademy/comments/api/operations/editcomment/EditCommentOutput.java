@@ -13,6 +13,5 @@ import java.util.UUID;
 @ToString
 @Builder
 public class EditCommentOutput implements OperationOutput {
-    @Schema(example = "UUID")
     private UUID id;
 }

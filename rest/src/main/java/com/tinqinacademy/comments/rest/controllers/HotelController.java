@@ -65,6 +65,7 @@ public class HotelController extends BaseController {
     public ResponseEntity<?> leaveRoomComment(@PathVariable String roomId, @RequestBody LeaveRoomCommentInput input) {
         input = LeaveRoomCommentInput.builder()
                 .roomId(roomId)
+                .userId(input.getUserId())
                 .content(input.getContent())
                 .firstName(input.getFirstName())
                 .lastName(input.getLastName())
@@ -90,6 +91,7 @@ public class HotelController extends BaseController {
     public ResponseEntity<?> editComment(@PathVariable String commentId, @RequestBody EditCommentInput input) {
         input = EditCommentInput.builder()
                 .id(commentId)
+                .userId(input.getUserId())
                 .content(input.getContent())
                 .build();
 

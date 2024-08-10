@@ -19,8 +19,13 @@ public class EditCommentInput implements OperationInput {
     @UUID(message = "Field id must be UUID")
     @NotBlank(message = "Field id must not be blank")
     private String id;
+
     @Schema(example = "This room is not as sick as i thought BRUV!!!")
     @NotBlank(message = "Field content cannot be blank")
     @Size(max = 500, min = 5, message = "Field content must be 5-500 characters")
     private String content;
+
+    @UUID(message = "Field userId must be UUID")
+    @NotBlank(message = "Field userid must not be blank")
+    private String userId;
 }

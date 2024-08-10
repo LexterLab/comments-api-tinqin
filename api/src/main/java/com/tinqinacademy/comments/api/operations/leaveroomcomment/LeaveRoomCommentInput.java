@@ -32,4 +32,8 @@ public class LeaveRoomCommentInput  implements OperationInput {
     @NotBlank(message = "Field content cannot not be blank")
     @Size(min = 5, max = 500, message = "Field content must be between 5-500 characters")
     private String content;
+    
+    @UUID(message = "Field userId must be UUID")
+    @NotBlank(message = "Field userid must not be blank")
+    private String userId;
 }
