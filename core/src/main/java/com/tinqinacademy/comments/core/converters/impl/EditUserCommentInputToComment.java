@@ -22,6 +22,8 @@ public class EditUserCommentInputToComment extends AbstractConverter<EditUserCom
                 .id(UUID.fromString(source.getCommentId()))
                 .firstName(source.getFirstName())
                 .lastName(source.getLastName())
+                .lastEditedBy(UUID.fromString(source.getUserId()))
+                .roomId(UUID.fromString(source.getRoomId()))
                 .build();
 
         return comment;

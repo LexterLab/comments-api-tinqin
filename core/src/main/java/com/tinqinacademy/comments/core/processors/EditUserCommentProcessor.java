@@ -38,8 +38,7 @@ public class EditUserCommentProcessor extends BaseProcessor implements EditUserC
             Comment comment = fetchCommentFromInput(input);
 
             Comment editedComment = conversionService.convert(input, Comment.class);
-            editedComment.setLastEditedBy("Admin");
-            editedComment.setRoomId(comment.getRoomId());
+            editedComment.setUserId(comment.getUserId());
 
             commentRepository.save(editedComment);
 

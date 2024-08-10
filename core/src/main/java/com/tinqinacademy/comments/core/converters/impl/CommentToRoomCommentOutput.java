@@ -24,6 +24,7 @@ public class CommentToRoomCommentOutput extends AbstractConverter<Comment, RoomC
                 .publishDate(source.getPublishDate())
                 .lastEditedBy(source.getLastEditedBy())
                 .lastEditedDate(source.getLastEditedDate())
+                .userId(source.getUserId())
                 .build();
 
         return output;
