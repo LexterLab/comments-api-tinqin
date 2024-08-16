@@ -5,8 +5,7 @@ import lombok.*;
 
 
 @Builder
-@Setter
-@Getter
+@NoArgsConstructor
 @ToString
 public class DeleteRoomCommentOutput implements OperationOutput {
 }
