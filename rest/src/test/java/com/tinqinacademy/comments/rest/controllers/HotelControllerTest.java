@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsInput;
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentInput;
-import com.tinqinacademy.comments.api.operations.getroomcomments.RoomCommentOutput;
 import com.tinqinacademy.comments.api.RestAPIRoutes;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
