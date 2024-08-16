@@ -3,6 +3,7 @@ package com.tinqinacademy.comments.rest.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentOutput;
+import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsInput;
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentInput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.RoomCommentOutput;
 import com.tinqinacademy.comments.api.RestAPIRoutes;
@@ -48,6 +49,16 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0].content")
                         .value(output.getContent()));
 
+    }
+
+    @Test
+    void shouldRespondWithBadRequestWhenRetrievingRoomCommentsWithInvalidIdFormat() throws Exception {
+        GetRoomCommentsInput input = GetRoomCommentsInput.builder()
+                .roomId("1213")
+                .build();
+
+        mockMvc.perform(get(RestAPIRoutes.GET_ROOM_COMMENTS, input.getRoomId()))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
