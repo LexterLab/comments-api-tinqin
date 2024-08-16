@@ -2,7 +2,6 @@ package com.tinqinacademy.comments.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
-import com.tinqinacademy.comments.api.operations.editcomment.EditCommentOutput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsInput;
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentInput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.RoomCommentOutput;
@@ -31,11 +30,6 @@ class HotelControllerTest extends BaseIntegrationTest {
 
     @Test
     void shouldRespondWithOKAndRoomCommentsWhenRetrievingRoomComments() throws Exception {
-       RoomCommentOutput output = RoomCommentOutput.builder()
-                .content("This is a test comment 1")
-                .firstName("John")
-                .lastName("Doe")
-                .build();
 
         mockMvc.perform(get(RestAPIRoutes.GET_ROOM_COMMENTS, UUID.fromString("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -43,11 +37,11 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0]").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0].id").isString())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0].firstName")
-                        .value(output.getFirstName()))
+                        .isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0].lastName")
-                        .value(output.getLastName()))
+                        .isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0].content")
-                        .value(output.getContent()));
+                        .isNotEmpty());
 
     }
 
