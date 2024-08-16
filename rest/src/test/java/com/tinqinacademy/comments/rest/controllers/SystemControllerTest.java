@@ -32,15 +32,18 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("Some content")
                 .lastName("Russell")
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isString());
-
     }
 
     @Test
@@ -49,9 +52,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("")
                 .lastName("Russell")
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -64,9 +71,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content(" ")
                 .lastName("Russell")
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -79,9 +90,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content(null)
                 .lastName("Russell")
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -108,9 +123,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                         "they are used for the greater good.")
                 .lastName("Russell")
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -123,9 +142,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName("Russell")
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -138,9 +161,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName("R")
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -153,9 +180,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName("RussellRussellRussellRussellRussellRussellRussellRussellRussellRussellRussellRussellRussell")
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -168,9 +199,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName("")
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -183,9 +218,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName(" ")
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -198,9 +237,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName(null)
                 .firstName("George")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -213,9 +256,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName("Russell")
                 .firstName("GeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorge")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -228,9 +275,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName("Russell")
                 .firstName("G")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -243,9 +294,14 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName("Russell")
                 .firstName(" ")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -258,9 +314,13 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName("Russell")
                 .firstName("")
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -273,89 +333,19 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content("some")
                 .lastName("Russell")
                 .firstName(null)
+                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingBlankRoomNoWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
-                .lastName("Russell")
-                .firstName("George")
-                .build();
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingEmptyRoomNoWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
-                .lastName("Russell")
-                .firstName("George")
-                .build();
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingNullRoomNoWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
-                .lastName("Russell")
-                .firstName("George")
-                .build();
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingAboveMaxCharsRoomNoWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
-                .lastName("Russell")
-                .firstName("George")
-                .build();
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingBelowMinCharsRoomNoWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
-                .lastName("Russell")
-                .firstName("George")
-                .build();
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, 1)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
-    }
 
     @Test
     void shouldRespondWithOKWhenDeletingUserComment() throws Exception {
