@@ -67,9 +67,12 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .firstName("George")
                 .lastName("Russell")
                 .content("Some content")
-                        .build();
+                .userId(UUID.randomUUID().toString())
+                .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -85,7 +88,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("Some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -100,7 +105,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("Some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -115,7 +122,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("Som")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -130,7 +139,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("Some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -145,7 +156,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("Some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -174,7 +187,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                         "they are used for the greater good.")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -189,7 +204,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -204,7 +221,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content(" ")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -219,7 +238,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content(null)
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -234,7 +255,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -249,7 +272,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -264,7 +289,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -279,7 +306,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -294,7 +323,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -309,7 +340,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("some content")
                 .build();
 
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, 2)
+        UUID roomId = UUID.randomUUID();
+
+        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
