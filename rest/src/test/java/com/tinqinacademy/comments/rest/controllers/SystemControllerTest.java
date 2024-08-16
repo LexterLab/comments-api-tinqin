@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -36,7 +38,7 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+        String commentId = "2c3a4d9e-2d4c-4e67-8f61-f1f0a7e5e4d1";
 
         mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
                 .accept(MediaType.APPLICATION_JSON)
@@ -349,9 +351,26 @@ class SystemControllerTest extends BaseIntegrationTest {
 
     @Test
     void shouldRespondWithOKWhenDeletingUserComment() throws Exception {
-        mockMvc.perform(delete(RestAPIRoutes.DELETE_COMMENT, 1))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isEmpty());
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(delete(RestAPIRoutes.DELETE_COMMENT, commentId))
+                .andExpect(status().isOk());
     }
+
+    @Test
+    void shouldRespondWithBadRequestWhenDeletingUserCommentWithInvalidFormatId() throws Exception {
+        String commentId = "id";
+
+        mockMvc.perform(delete(RestAPIRoutes.DELETE_COMMENT, commentId))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void shouldRespondWithResourceNotFoundWhenDeletingUnknownRoomComment() throws Exception {
+        mockMvc.perform(delete(RestAPIRoutes.DELETE_COMMENT, UUID.randomUUID()))
+                .andExpect(status().isNotFound());
+    }
+
+
 
 }
