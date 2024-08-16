@@ -71,6 +71,6 @@ public class SystemController extends BaseController {
         DeleteRoomCommentInput input = DeleteRoomCommentInput.builder()
                 .commentId(commentId).build();
         Either<ErrorOutput, DeleteRoomCommentOutput> output = deleteRoom.process(input);
-        return new ResponseEntity<>(output, HttpStatus.OK);
+        return handleOutput(output, HttpStatus.OK);
     }
 }
