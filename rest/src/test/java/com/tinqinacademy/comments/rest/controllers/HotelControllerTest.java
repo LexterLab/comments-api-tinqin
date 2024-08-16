@@ -353,14 +353,18 @@ class HotelControllerTest extends BaseIntegrationTest {
     void shouldRespondWithOKAndCommentIdWhenEditingComment() throws Exception {
         EditCommentInput input = EditCommentInput.builder()
                 .content("Some content")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, commentId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(input)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(commentId));
     }
 
     @Test
@@ -369,7 +373,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("Some")
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, commentId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -396,7 +402,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                         "they are used for the greater good.")
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, commentId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -409,7 +417,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content("")
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, commentId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -422,7 +432,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content(" ")
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, commentId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
@@ -435,7 +447,9 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .content(null)
                 .build();
 
-        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, 1)
+        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
+
+        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, commentId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
