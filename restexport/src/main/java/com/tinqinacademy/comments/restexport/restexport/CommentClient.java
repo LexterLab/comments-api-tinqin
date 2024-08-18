@@ -1,6 +1,7 @@
 package com.tinqinacademy.comments.restexport.restexport;
 
 import com.tinqinacademy.comments.api.RouteExports;
+import com.tinqinacademy.comments.api.operations.deletecomment.DeleteRoomCommentOutput;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.editcomment.EditCommentOutput;
 import com.tinqinacademy.comments.api.operations.editusercomment.EditUserCommentInput;
@@ -28,5 +29,5 @@ public interface CommentClient {
     EditUserCommentOutput editUserComment(@Param String commentId, EditUserCommentInput input);
 
     @RequestLine(RouteExports.DELETE_COMMENT)
-    void deleteRoomComment(@Param String commentId);
+    DeleteRoomCommentOutput deleteRoomComment(@Param String commentId);
 }
