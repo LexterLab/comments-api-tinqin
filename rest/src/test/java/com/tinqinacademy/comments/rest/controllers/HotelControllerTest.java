@@ -5,6 +5,9 @@ import com.tinqinacademy.comments.api.operations.editcomment.EditCommentInput;
 import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomCommentsInput;
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentInput;
 import com.tinqinacademy.comments.api.RestAPIRoutes;
+import com.tinqinacademy.comments.persistence.models.Comment;
+import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +18,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -27,19 +33,22 @@ class HotelControllerTest extends BaseIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     @Test
     void shouldRespondWithOKAndRoomCommentsWhenRetrievingRoomComments() throws Exception {
 
         mockMvc.perform(get(RestAPIRoutes.GET_ROOM_COMMENTS, UUID.fromString("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0]").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0].id").isString())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0].firstName")
+                .andExpect(jsonPath("$.roomComments").isArray())
+                .andExpect(jsonPath("$.roomComments[0]").isNotEmpty())
+                .andExpect(jsonPath("$.roomComments[0].id").isString())
+                .andExpect(jsonPath("$.roomComments[0].firstName")
                         .isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0].lastName")
+                .andExpect(jsonPath("$.roomComments[0].lastName")
                         .isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.roomComments[0].content")
+                .andExpect(jsonPath("$.roomComments[0].content")
                         .isNotEmpty());
 
     }
@@ -51,7 +60,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .build();
 
         mockMvc.perform(get(RestAPIRoutes.GET_ROOM_COMMENTS, input.getRoomId()))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field roomId must be UUID"));
     }
 
     @Test
@@ -65,12 +75,18 @@ class HotelControllerTest extends BaseIntegrationTest {
 
         UUID roomId = UUID.randomUUID();
 
+        long numberOfCommentsBefore = commentRepository.count();
+
         mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                .andExpect(MockMvcResultMatchers.status().isCreated())
-               .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString());
+               .andExpect(jsonPath("$.id").isString());
+
+        long numberOfCommentsAfter = commentRepository.count();
+
+        Assertions.assertTrue(numberOfCommentsAfter > numberOfCommentsBefore);
     }
 
     @Test
@@ -79,6 +95,7 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .firstName("G")
                 .lastName("Russell")
                 .content("Some content")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         UUID roomId = UUID.randomUUID();
@@ -87,7 +104,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field firstName must be between 2-30 characters"));
     }
 
     @Test
@@ -96,6 +114,7 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .firstName("Gandalf")
                 .lastName("R")
                 .content("Some content")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         UUID roomId = UUID.randomUUID();
@@ -104,7 +123,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field lastName must be between 2-30 characters"));
     }
 
     @Test
@@ -113,6 +133,7 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .firstName("Gandalf")
                 .lastName("Russell")
                 .content("Som")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         UUID roomId = UUID.randomUUID();
@@ -121,7 +142,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field content must be between 5-500 characters"));
     }
 
     @Test
@@ -130,6 +152,7 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .firstName("GandalfGandalfGandalfGandalfGandalfGandalfGandalfGandalfGandalfGandalfGandalfGandalfGandalf")
                 .lastName("Russell")
                 .content("Some content")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         UUID roomId = UUID.randomUUID();
@@ -138,7 +161,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field firstName must be between 2-30 characters"));
     }
 
     @Test
@@ -147,6 +171,7 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .firstName("Gandalf")
                 .lastName("RussellRussellRussellRussellRussellRussellRussellRussellRussellRussellRussellRussell")
                 .content("Some content")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         UUID roomId = UUID.randomUUID();
@@ -155,7 +180,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field lastName must be between 2-30 characters"));
     }
 
     @Test
@@ -178,6 +204,7 @@ class HotelControllerTest extends BaseIntegrationTest {
                         "progress are accessible to all members of society. Moreover, the ethical implications of technologies like " +
                         "artificial intelligence and machine learning must be carefully considered to prevent potential misuse and ensure " +
                         "they are used for the greater good.")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         UUID roomId = UUID.randomUUID();
@@ -186,42 +213,10 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field content must be between 5-500 characters"));
     }
 
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingEmptyContentWhenLeavingRoomComment() throws Exception {
-        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
-                .firstName("Gandalf")
-                .lastName("Russell")
-                .content("")
-                .build();
-
-        UUID roomId = UUID.randomUUID();
-
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingBlankContentWhenLeavingRoomComment() throws Exception {
-        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
-                .firstName("Gandalf")
-                .lastName("Russell")
-                .content(" ")
-                .build();
-
-        UUID roomId = UUID.randomUUID();
-
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
 
     @Test
     void shouldRespondWithBadRequestWhenProvidingNullContentWhenLeavingRoomComment() throws Exception {
@@ -229,6 +224,7 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .firstName("Gandalf")
                 .lastName("Russell")
                 .content(null)
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         UUID roomId = UUID.randomUUID();
@@ -237,41 +233,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingEmptyFirstNameWhenLeavingRoomComment() throws Exception {
-        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
-                .firstName("")
-                .lastName("Russell")
-                .content("some content")
-                .build();
-
-        UUID roomId = UUID.randomUUID();
-
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingBlankFirstNameWhenLeavingRoomComment() throws Exception {
-        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
-                .firstName(" ")
-                .lastName("Russell")
-                .content("some content")
-                .build();
-
-        UUID roomId = UUID.randomUUID();
-
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field content cannot not be blank"));
     }
 
     @Test
@@ -280,6 +243,7 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .firstName(null)
                 .lastName("Russell")
                 .content("some content")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         UUID roomId = UUID.randomUUID();
@@ -288,41 +252,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingEmptyLastNameWhenLeavingRoomComment() throws Exception {
-        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
-                .firstName("George")
-                .lastName("")
-                .content("some content")
-                .build();
-
-        UUID roomId = UUID.randomUUID();
-
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingBlankLastNameWhenLeavingRoomComment() throws Exception {
-        LeaveRoomCommentInput input = LeaveRoomCommentInput.builder()
-                .firstName("George")
-                .lastName(" ")
-                .content("some content")
-                .build();
-
-        UUID roomId = UUID.randomUUID();
-
-        mockMvc.perform(post(RestAPIRoutes.LEAVE_ROOM_COMMENT, roomId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field firstName cannot be blank"));
     }
 
     @Test
@@ -331,6 +262,7 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .firstName("George")
                 .lastName(null)
                 .content("some content")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         UUID roomId = UUID.randomUUID();
@@ -339,7 +271,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field lastName cannot be blank"));
     }
 
     @Test
@@ -356,14 +289,20 @@ class HotelControllerTest extends BaseIntegrationTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(input)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isString())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(commentId));
+                .andExpect(jsonPath("$.id").isString())
+                .andExpect(jsonPath("$.id").value(commentId));
+
+        Comment updatedComment = commentRepository.findById(UUID.fromString(commentId))
+                .orElseThrow(() -> new AssertionError("Comment not found for ID: " + commentId));
+
+        assertEquals(input.getContent(), updatedComment.getContent());
     }
 
     @Test
     void shouldRespondWithBadRequestWhenProvidedBelowMinCharsContentWhenEditingComment() throws Exception {
         EditCommentInput input = EditCommentInput.builder()
                 .content("Some")
+                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
                 .build();
 
         String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
@@ -372,7 +311,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field content must be 5-500 characters"));
     }
 
     @Test
@@ -393,6 +333,7 @@ class HotelControllerTest extends BaseIntegrationTest {
                         "progress are accessible to all members of society. Moreover, the ethical implications of technologies like " +
                         "artificial intelligence and machine learning must be carefully considered to prevent potential misuse and ensure " +
                         "they are used for the greater good.")
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
@@ -401,43 +342,16 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field content must be 5-500 characters"));
     }
 
-    @Test
-    void shouldRespondWithBadRequestWhenProvidedEmptyContentWhenEditingComment() throws Exception {
-        EditCommentInput input = EditCommentInput.builder()
-                .content("")
-                .build();
-
-        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
-
-        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, commentId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidedBlankContentWhenEditingComment() throws Exception {
-        EditCommentInput input = EditCommentInput.builder()
-                .content(" ")
-                .build();
-
-        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
-
-        mockMvc.perform(patch(RestAPIRoutes.EDIT_COMMENT, commentId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
 
     @Test
     void shouldRespondWithBadRequestWhenProvidedNullContentWhenEditingComment() throws Exception {
         EditCommentInput input = EditCommentInput.builder()
                 .content(null)
+                .userId(UUID.randomUUID().toString())
                 .build();
 
         String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
@@ -446,7 +360,8 @@ class HotelControllerTest extends BaseIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field content cannot be blank"));
     }
 
 }
