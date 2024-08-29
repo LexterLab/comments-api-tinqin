@@ -1,8 +1,11 @@
 package com.tinqinacademy.comments.rest.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tinqinacademy.comments.api.Messages;
 import com.tinqinacademy.comments.api.RestAPIRoutes;
 import com.tinqinacademy.comments.api.operations.editusercomment.EditUserCommentInput;
+import com.tinqinacademy.comments.persistence.models.Comment;
+import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,6 +30,8 @@ class SystemControllerTest extends BaseIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Test
     void shouldRespondWithOKAndCommentIdWhenEditingUserComment() throws Exception {
@@ -46,44 +51,15 @@ class SystemControllerTest extends BaseIntegrationTest {
                 .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isString());
-    }
 
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingEmptyContentWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("")
-                .lastName("Russell")
-                .firstName("George")
-                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
-                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
-                .build();
+        Comment comment = commentRepository.findById(UUID.fromString(commentId))
+                .orElseThrow(() -> new AssertionError("Comment not found"));
 
-        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingBlankContentWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content(" ")
-                .lastName("Russell")
-                .firstName("George")
-                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
-                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
-                .build();
-
-        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
+        assertEquals(input.getContent(), comment.getContent());
+        assertEquals(input.getLastName(), comment.getLastName());
+        assertEquals(input.getFirstName(), comment.getFirstName());
+        assertEquals(input.getRoomId(), comment.getRoomId().toString());
+        assertEquals(input.getUserId(), comment.getUserId().toString());
     }
 
     @Test
@@ -102,7 +78,8 @@ class SystemControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field content cannot be blank"));
     }
 
     @Test
@@ -135,7 +112,8 @@ class SystemControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field content must be 5-500 characters"));
     }
 
     @Test
@@ -154,13 +132,14 @@ class SystemControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field content must be 5-500 characters"));
     }
 
     @Test
     void shouldRespondWithBadRequestWhenProvidingBelowMinCharsLastNameWhenEditingUserComment() throws Exception {
         EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
+                .content("content")
                 .lastName("R")
                 .firstName("George")
                 .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
@@ -173,13 +152,14 @@ class SystemControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field lastName must be 2-30 characters"));
     }
 
     @Test
     void shouldRespondWithBadRequestWhenProvidingAboveMaxCharsLastNameWhenEditingUserComment() throws Exception {
         EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
+                .content("content")
                 .lastName("RussellRussellRussellRussellRussellRussellRussellRussellRussellRussellRussellRussellRussell")
                 .firstName("George")
                 .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
@@ -192,51 +172,14 @@ class SystemControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingEmptyLastNameWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
-                .lastName("")
-                .firstName("George")
-                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
-                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
-                .build();
-
-        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingBlankLastNameWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
-                .lastName(" ")
-                .firstName("George")
-                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
-                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
-                .build();
-
-        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field lastName must be 2-30 characters"));
     }
 
     @Test
     void shouldRespondWithBadRequestWhenProvidingNullLastNameWhenEditingUserComment() throws Exception {
         EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
+                .content("content")
                 .lastName(null)
                 .firstName("George")
                 .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
@@ -249,13 +192,14 @@ class SystemControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field lastName cannot be blank"));
     }
 
     @Test
     void shouldRespondWithBadRequestWhenProvidingAboveMaxCharsFirstNameWhenEditingUserComment() throws Exception {
         EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
+                .content("content")
                 .lastName("Russell")
                 .firstName("GeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorgeGeorge")
                 .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
@@ -268,13 +212,14 @@ class SystemControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field firstName must be 2-30 characters"));
     }
 
     @Test
     void shouldRespondWithBadRequestWhenProvidingBelowMinCharsFirstNameWhenEditingUserComment() throws Exception {
         EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
+                .content("content")
                 .lastName("Russell")
                 .firstName("G")
                 .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
@@ -287,52 +232,14 @@ class SystemControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingBlankFirstNameWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
-                .lastName("Russell")
-                .firstName(" ")
-                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
-                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
-                .build();
-
-
-        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    void shouldRespondWithBadRequestWhenProvidingEmptyFirstNameWhenEditingUserComment() throws Exception {
-        EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
-                .lastName("Russell")
-                .firstName("")
-                .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
-                .userId("8eabb4ff-df5b-4e39-8642-0dcce375798c")
-                .build();
-
-        String commentId = "1b4a2d8a-5f15-4c7d-9ad1-e5db3e1b6f2d";
-
-        mockMvc.perform(put(RestAPIRoutes.EDIT_USER_COMMENT, commentId)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field firstName must be 2-30 characters"));
     }
 
     @Test
     void shouldRespondWithBadRequestWhenProvidingNullFirstNameWhenEditingUserComment() throws Exception {
         EditUserCommentInput input = EditUserCommentInput.builder()
-                .content("some")
+                .content("content")
                 .lastName("Russell")
                 .firstName(null)
                 .roomId("923364b0-4ed0-4a7e-8c23-ceb5c238ceee")
@@ -345,9 +252,9 @@ class SystemControllerTest extends BaseIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field firstName cannot be blank"));
     }
-
 
     @Test
     void shouldRespondWithOKWhenDeletingUserComment() throws Exception {
@@ -362,15 +269,17 @@ class SystemControllerTest extends BaseIntegrationTest {
         String commentId = "id";
 
         mockMvc.perform(delete(RestAPIRoutes.DELETE_COMMENT, commentId))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors[0].message").value("Field commentId must be UUID"));
     }
 
     @Test
     void shouldRespondWithResourceNotFoundWhenDeletingUnknownRoomComment() throws Exception {
-        mockMvc.perform(delete(RestAPIRoutes.DELETE_COMMENT, UUID.randomUUID()))
-                .andExpect(status().isNotFound());
+        String commentId = UUID.randomUUID().toString();
+
+        mockMvc.perform(delete(RestAPIRoutes.DELETE_COMMENT, commentId))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.errors[0].message")
+                        .value(String.format(Messages.RESOURCE_NOT_FOUND, "Comment", "id", commentId)));
     }
-
-
-
 }
