@@ -17,11 +17,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.tinqinacademy.hotel</groupId>
-            <artifactId>restexport</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-jackson</artifactId>
             <version>${feignjackson.version}</version>

@@ -11,18 +11,19 @@ import com.tinqinacademy.comments.api.operations.getroomcomments.GetRoomComments
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentInput;
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentOutput;
 import com.tinqinacademy.comments.api.RestAPIRoutes;
+import com.tinqinacademy.restexportprocessor.main.RestExport;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.vavr.control.Either;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@RequiredArgsConstructor
 @RestController
 @Tag(name = "Hotel REST APIs")
 public class HotelController extends BaseController {
@@ -31,16 +32,27 @@ public class HotelController extends BaseController {
     private final LeaveRoomComment leaveRoomComment;
     private final EditRoomComment editRoomComment;
 
+    public HotelController(GetRoomComments getRoomComments, LeaveRoomComment leaveRoomComment, EditRoomComment editRoomComment) {
+        this.getRoomComments = getRoomComments;
+        this.leaveRoomComment = leaveRoomComment;
+        this.editRoomComment = editRoomComment;
+    }
+
     @Operation(
             summary = "Get room comments Rest API",
             description = "Get room comments Rest API is used for retrieving room's comments by roomId"
     )
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "HTTP STATUS 200 SUCCESS"),
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP STATUS 200 SUCCESS", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = GetRoomCommentsOutput.class))
+            ),
             @ApiResponse(responseCode = "400", description = "HTTP STATUS 400 BAD REQUEST"),
             @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND")
     }
     )
+    @RestExport
     @GetMapping(RestAPIRoutes.GET_ROOM_COMMENTS)
     public ResponseEntity<?> getRoomComments(@PathVariable String roomId) {
         GetRoomCommentsInput input  = GetRoomCommentsInput.builder()
@@ -55,12 +67,16 @@ public class HotelController extends BaseController {
             description = "Leave room comment Rest API is used for leaving a room comment by roomId"
     )
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "201", description = "HTTP STATUS 201 CREATED"),
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP STATUS 201 CREATED", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = LeaveRoomCommentOutput.class))
+            ),
             @ApiResponse(responseCode = "400", description = "HTTP STATUS 400 BAD REQUEST"),
             @ApiResponse(responseCode = "401", description = "HTT STATUS 401 UNAUTHORIZED"),
             @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND")
-    }
-    )
+    })
+    @RestExport
     @PostMapping(RestAPIRoutes.LEAVE_ROOM_COMMENT)
     public ResponseEntity<?> leaveRoomComment(@PathVariable String roomId, @RequestBody LeaveRoomCommentInput input) {
         input = LeaveRoomCommentInput.builder()
@@ -81,12 +97,16 @@ public class HotelController extends BaseController {
             description = "Edit room comment Rest API is used for users to edit their room comments by commentId"
     )
     @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "HTTP STATUS 200 SUCCESS"),
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP STATUS 200 SUCCESS", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = EditCommentOutput.class))
+            ),
             @ApiResponse(responseCode = "400", description = "HTTP STATUS 400 BAD REQUEST"),
             @ApiResponse(responseCode = "401", description = "HTT STATUS 401 UNAUTHORIZED"),
             @ApiResponse(responseCode = "404", description = "HTTP STATUS 404 NOT FOUND")
-    }
-    )
+    })
+    @RestExport
     @PatchMapping(RestAPIRoutes.EDIT_COMMENT)
     public ResponseEntity<?> editComment(@PathVariable String commentId, @RequestBody EditCommentInput input) {
         input = EditCommentInput.builder()

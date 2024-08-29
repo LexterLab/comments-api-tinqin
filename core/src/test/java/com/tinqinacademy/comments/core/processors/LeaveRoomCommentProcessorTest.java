@@ -5,7 +5,6 @@ import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomComme
 import com.tinqinacademy.comments.api.operations.leaveroomcomment.LeaveRoomCommentOutput;
 import com.tinqinacademy.comments.persistence.models.Comment;
 import com.tinqinacademy.comments.persistence.repositories.CommentRepository;
-import com.tinqinacademy.hotel.restexport.HotelClient;
 import io.vavr.control.Either;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
@@ -32,9 +31,6 @@ class LeaveRoomCommentProcessorTest {
 
     @Mock
     private ConversionService conversionService;
-
-    @Mock
-    private HotelClient hotelClient;
 
     @Mock
     private Validator validator;
